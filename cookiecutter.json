@@ -1,0 +1,14 @@
+{
+    "name": "salt-tool Boilerplate",
+    "abbr": "{{ cookiecutter.name | lower }}",
+    "abbr_pysafe": "{{ cookiecutter.abbr | replace('-', '_') }}",
+    "pkg": "{{ cookiecutter.abbr | lower }}",
+    "mac_library": "y",
+    "mac_cask": "y",
+    "has_xdg": "y",
+    "default_xdg": "y",
+    "default_confdir": "{{ '.config/' if cookiecutter.default_xdg == 'y' else '.' ~  cookiecutter.abbr | lower }}",
+    "default_confdir_mac": "{{ 'Library/Application Support/' ~ cookiecutter.name if cookiecutter.mac_library == 'y' else cookiecutter.default_confdir }}",
+    "git_username": "none",
+    "modstate": "n"
+}

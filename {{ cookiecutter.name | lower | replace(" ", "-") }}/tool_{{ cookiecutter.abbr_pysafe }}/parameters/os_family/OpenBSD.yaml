@@ -12,7 +12,8 @@
 # values: {}
 ---
 values:
-  pkg:
-    manager: pkg
-  rootgroup: wheel
+  lookup:
+    pkg:
+      manager: pkg
+    rootgroup: wheel
 ...

@@ -11,6 +11,5 @@
 # you can remove this file or provide at least an empty dict, e.g.
 # values: {}
 ---
-values:
-  arch: armv6l
+values: {}
 ...

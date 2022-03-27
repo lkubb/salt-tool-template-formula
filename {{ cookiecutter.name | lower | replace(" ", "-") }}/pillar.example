@@ -1,59 +1,64 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
+# yamllint disable rule:comments-indentation
 ---
 ######################################################################
 # Mind that this is to be read as an overview of available
 # settings which can be set in many different ways, not only
 # by providing pillar values.
 # The different sources will be merged. For further information,
-# please see `libmapstack.jinja` as well as the configured
-# sources in `parameters/map_jinja.yaml`.
+# please see the docs, `libmapstack.jinja` as well as the configured
+# default sources in `parameters/map_jinja.yaml`.
 #
 # This documentation will need to be updated once there is
 # some learned experience. @TODO
 ######################################################################
 
-# Apart from the various source files, there are two independent source trees.
-# They will be merged _last_, after `libmapstack.jinja` has done its job:
-# tool_{{ cookiecutter.abbr_pysafe }} > tool_users.
+# Apart from the various source files, there are two independent source trees
+# for user-specific configuration.
+# Generally tool_{{ cookiecutter.abbr_pysafe }} > tool_users.
 # `tool_users` focuses on specific users, of which most values
 # will be respected by all formulae in the `tool` suite:
-tool_users:
+tool_global:
+  users:
 
-    # The following is global configuration for the user named `user`.
-  user:
+      # The following is global configuration for the user named `user`.
+    user:
 
-      # Force the usage of XDG directories for this user.
-    xdg: true
+        # Force the usage of XDG directories for this user.
+      xdg: true
 
-      # Sync this user's config from a dotfiles repo.
-      # The available paths and their priority can be found in the
-      # rendered `configsync.sls` file (currently, @TODO docs).
-      # Overview in descending priority:
-      # salt://dotconfig/id/<minion_id>/user/<user>/{{ cookiecutter.abbr }}
-      # salt://dotconfig/os/Fedora/user/<user>/{{ cookiecutter.abbr }}
-      # salt://dotconfig/os_family/Debian/user/<user>/{{ cookiecutter.abbr }}
-      # salt://dotconfig/default/user/<user>/{{ cookiecutter.abbr }}
-      # salt://dotconfig/id/<minion_id>/{{ cookiecutter.abbr }}
-      # salt://dotconfig/os/Fedora/{{ cookiecutter.abbr }}
-      # salt://dotconfig/os_family/Debian/{{ cookiecutter.abbr }}
-      # salt://dotconfig/default/{{ cookiecutter.abbr }}
-      # This means once any source for a specific user was found, it will
-      # override even minion-specific non-user-specific sources.
-    dotconfig: true
+        # Sync this user's config from a dotfiles repo.
+        # The available paths and their priority can be found in the
+        # rendered `configsync.sls` file (currently, @TODO docs).
+        # Overview in descending priority:
+        # salt://dotconfig/id/<minion_id>/user/<user>/{{ cookiecutter.abbr }}
+        # salt://dotconfig/os/Fedora/user/<user>/{{ cookiecutter.abbr }}
+        # salt://dotconfig/os_family/Debian/user/<user>/{{ cookiecutter.abbr }}
+        # salt://dotconfig/default/user/<user>/{{ cookiecutter.abbr }}
+        # salt://dotconfig/id/<minion_id>/{{ cookiecutter.abbr }}
+        # salt://dotconfig/os/Fedora/{{ cookiecutter.abbr }}
+        # salt://dotconfig/os_family/Debian/{{ cookiecutter.abbr }}
+        # salt://dotconfig/default/{{ cookiecutter.abbr }}
+        # This means once any source for a specific user was found, it will
+        # override even minion-specific non-user-specific sources.
+      dotconfig:              # can be bool or mapping
+        file_mode: '0600'     # default: keep destination or salt umask (new)
+        dir_mode: '0700'      # default: 0700
+        clean: false          # delete files in target. default: false
 
-      # Persist environment variables used by this formula for this
-      # user to this file (will be appended to a file relative to $HOME)
-    persistenv: '.config/zsh/zshenv'
+        # Persist environment variables used by this formula for this
+        # user to this file (will be appended to a file relative to $HOME)
+      persistenv: '.config/zsh/zshenv'
 
-      # Add runcom hooks specific to this formula to this file
-      # for this user (will be appended to a file relative to $HOME)
-    rchook: '.config/zsh/zshrc'
+        # Add runcom hooks specific to this formula to this file
+        # for this user (will be appended to a file relative to $HOME)
+      rchook: '.config/zsh/zshrc'
 
-      # This user's configuration for this formula. Will be overridden by
-      # user-specific configuration in `tool_{{ cookiecutter.abbr_pysafe }}:users`.
-      # Set this to `false` to disable configuration for this user.
-    {{ cookiecutter.abbr }}:
+        # This user's configuration for this formula. Will be overridden by
+        # user-specific configuration in `tool_{{ cookiecutter.abbr_pysafe }}:users`.
+        # Set this to `false` to disable configuration for this user.
+      {{ cookiecutter.abbr_pysafe }}:
       someconf: someval
 
 tool_{{ cookiecutter.abbr_pysafe }}:
@@ -70,7 +75,7 @@ tool_{{ cookiecutter.abbr_pysafe }}:
 
     # User configuration can also be specified here in
     # `tool_{{ cookiecutter.abbr_pysafe }}:users`. It will override
-    # configuration sourced from `tool_users`.
+    # configuration sourced from `tool_global:users`.
   users:
     user:
       persistenv: '.bash_profile'
@@ -83,17 +88,18 @@ tool_{{ cookiecutter.abbr_pysafe }}:
 # in most cases. For a full overview, see the different files
 # in `parameters`.
 ######################################################################
-  pkg:
-    name: {{ cookiecutter.pkg }}
-    enable_repo:
-      - stable
-  rootgroup: root
-  config:
-    default_confdir: '{{ cookiecutter.default_confdir }}'
-    default_conffile: 'config'
-    default_xdg_conffile: 'config'
-  subcomponent:
-    config: '{{ cookiecutter.default_confdir }}/subcomponent'
+  lookup:
+    pkg:
+      name: {{ cookiecutter.pkg }}
+      enable_repo:
+        - stable
+    rootgroup: root
+    config:
+      default_confdir: '{{ cookiecutter.default_confdir }}'
+      default_conffile: 'config'
+      default_xdg_conffile: 'config'
+    subcomponent:
+      config: '{{ cookiecutter.default_confdir }}/subcomponent'
 
 ######################################################################
 # This is where `tool` suite settings end and Salt behavior settings

@@ -12,6 +12,7 @@
 # values: {}
 ---
 values:
-  pkg:
-    manager: portage
+  lookup:
+    pkg:
+      manager: portage
 ...

@@ -20,7 +20,7 @@ tool-{% endraw %}{{ cookiecutter.abbr }}{% raw %}-subcomponent-config-file-file-
               }}
     - mode: 644
     - user: root
-    - group: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.rootgroup }}
+    - group: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.rootgroup }}
     - makedirs: True
     - template: jinja
     - require_in:

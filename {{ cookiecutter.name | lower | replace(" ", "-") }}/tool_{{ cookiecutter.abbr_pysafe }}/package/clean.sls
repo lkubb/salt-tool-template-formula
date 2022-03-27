@@ -11,6 +11,6 @@ include:
 
 {% endraw %}{{ cookiecutter.name }}{% raw %} is removed:
   pkg.removed:
-    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.pkg.name }}
+    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.pkg.name }}
     - require:
       - sls: {{ sls_config_clean }}{% endraw %}

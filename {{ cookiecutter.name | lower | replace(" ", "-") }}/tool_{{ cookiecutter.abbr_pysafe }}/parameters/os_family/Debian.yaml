@@ -12,12 +12,13 @@
 # values: {}
 ---
 values:
-  pkg:
-    manager: apt
-    repos:
-      stable:
-        humanname: {{ cookiecutter.name }} stable
-        name: deb http://FIXME stable main
-        key_url: http://FIXME
-        file: /etc/apt/sources.list.d/{{ cookiecutter.abbr }}.conf
+  lookup:
+    pkg:
+      manager: apt
+      repos:
+        stable:
+          humanname: {{ cookiecutter.name }} stable
+          name: deb http://FIXME stable main
+          key_url: http://FIXME
+          file: /etc/apt/sources.list.d/{{ cookiecutter.abbr }}.conf
 ...

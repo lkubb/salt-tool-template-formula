@@ -11,7 +11,7 @@ include:
 
 tool-{% endraw %}{{ cookiecutter.abbr }}{% raw %}-service-running-service-running:
   service.running:
-    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.service.name }}
+    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.service.name }}
     - enable: True
     - watch:
       - sls: {{ sls_config_file }}

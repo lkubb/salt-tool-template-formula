@@ -12,6 +12,7 @@
 # values: {}
 ---
 values:
-  pkg:
-    manager: pacman
+  lookup:
+    pkg:
+      manager: pacman
 ...

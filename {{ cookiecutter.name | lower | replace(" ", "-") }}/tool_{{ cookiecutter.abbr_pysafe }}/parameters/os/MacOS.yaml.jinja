@@ -16,11 +16,12 @@
 #}
 ---
 values:
-  default_confdir: '{{ cookiecutter.default_confdir_mac }}'
-  pkg:
-    manager: brew
-{%- if cookiecutter.mac_cask %}
-    name: homebrew/cask/{{ cookiecutter.pkg }}
-{%- endif %}
-  rootgroup: {% raw %}{{ salt['cmd.run']("stat -f '%Sg' /dev/console") }}{% endraw %}
+  lookup:
+    default_confdir: '{{ cookiecutter.default_confdir_mac }}'
+    pkg:
+      manager: brew
+  {%- if cookiecutter.mac_cask %}
+      name: homebrew/cask/{{ cookiecutter.pkg }}
+  {%- endif %}
+    rootgroup: {% raw %}{{ salt['cmd.run']("stat -f '%Sg' /dev/console") }}{% endraw %}
 ...

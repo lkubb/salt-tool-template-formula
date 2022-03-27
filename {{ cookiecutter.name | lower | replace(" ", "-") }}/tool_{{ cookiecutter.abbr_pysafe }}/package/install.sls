@@ -9,13 +9,13 @@ include:
   - {{ slsdotpath }}.repo
 
 {% endraw %}{{ cookiecutter.name }}{% raw %} is installed:
-  pkg.{{ mode }}:
-    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.pkg.name }}
-    - version: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.pkg.get('version') or 'latest' }}
+  pkg.installed:
+    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.pkg.name }}
+    - version: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.get('version', 'latest') }}
     {#- do not specify alternative return value to be able to unset default version #}
 
 {% endraw %}{{ cookiecutter.name }}{% raw %} setup is completed:
   test.nop:
     - name: Hooray, {% endraw %}{{ cookiecutter.name }}{% raw %} setup has finished.
     - require:
-      - pkg: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.pkg.name }}{% endraw %}
+      - pkg: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.pkg.name }}{% endraw %}

@@ -7,5 +7,5 @@
 
 tool-{% endraw %}{{ cookiecutter.abbr }}{% raw %}-service-clean-service-dead:
   service.dead:
-    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.service.name }}
+    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.service.name }}
     - enable: False{% endraw %}

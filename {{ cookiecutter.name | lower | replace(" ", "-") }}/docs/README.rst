@@ -1,56 +1,127 @@
 .. _readme:
 
-TEMPLATE-formula
-================
+{{ cookiecutter.name }} Formula
+{{ '=' * cookiecutter.name | length }}========
 
-|img_travis| |img_sr| |img_pc|
-
-.. |img_travis| image:: https://travis-ci.com/saltstack-formulas/TEMPLATE-formula.svg?branch=master
-   :alt: Travis CI Build Status
-   :scale: 100%
-   :target: https://travis-ci.com/saltstack-formulas/TEMPLATE-formula
-.. |img_sr| image:: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-   :alt: Semantic Release
-   :scale: 100%
-   :target: https://github.com/semantic-release/semantic-release
-.. |img_pc| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
-   :alt: pre-commit
-   :scale: 100%
-   :target: https://github.com/pre-commit/pre-commit
-
-A SaltStack formula that is empty. It has dummy content to help with a quick
-start on a new formula and it serves as a style guide.
+Manages {{ cookiecutter.name }} in the user environment.
 
 .. contents:: **Table of Contents**
    :depth: 1
 
-General notes
+Usage
+-----
+Applying ``tool_{{ cookiecutter.abbr_pysafe }}`` will make sure ``{{ cookiecutter.abbr }}`` is configured as specified.
+
+{%- if 'y' == cookiecutter.modstate %}
+
+Execution and state module
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This formula provides a custom execution module and state to manage packages installed with {{ cookiecutter.name }}. The functions are self-explanatory, please see the source code or the rendered docs at :ref:`em_{{ cookiecutter.abbr_pysafe }}` and :ref:`sm_{{ cookiecutter.abbr_pysafe }}`.
+{%- endif %}
+
+Configuration
 -------------
 
-See the full `SaltStack Formulas installation and usage instructions
-<https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html>`_.
+This formula
+~~~~~~~~~~~~
+The general configuration structure is in line with all other formulae from the `tool` suite, for details see :ref:`toolsuite`. An example pillar is provided, see :ref:`pillar.example`. Note that you do not need to specify everything by pillar. Often, it's much easier and less resource-heavy to use the ``parameters/<grain>/<value>.yaml`` files for non-sensitive settings. The underlying logic is explained in :ref:`map.jinja`.
 
-If you are interested in writing or contributing to formulas, please pay attention to the `Writing Formula Section
-<https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#writing-formulas>`_.
+User-specific
+^^^^^^^^^^^^^
+The following shows an example of ``tool_{{ cookiecutter.abbr }}`` per-user configuration. If provided by pillar, namespace it to ``tool_global:users`` and/or ``tool_{{ cookiecutter.abbr_pysafe }}:users``. For the ``parameters`` YAML file variant, it needs to be nested under a ``values`` parent key. The YAML files are expected to be found in
 
-If you want to use this formula, please pay attention to the ``FORMULA`` file and/or ``git tag``,
-which contains the currently released version. This formula is versioned according to `Semantic Versioning <http://semver.org/>`_.
+1. ``salt://tool_{{ cookiecutter.abbr_pysafe }}/parameters/<grain>/<value>.yaml`` or
+2. ``salt://tool_global/parameters/<grain>/<value>.yaml``.
 
-See `Formula Versioning Section <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#versioning>`_ for more details.
+.. code-block:: yaml
 
-If you need (non-default) configuration, please refer to:
+  user:
+      # Force the usage of XDG directories for this user.
+    xdg: true
 
-- `how to configure the formula with map.jinja <map.jinja.rst>`_
-- the ``pillar.example`` file
-- the `Special notes`_ section
+      # Sync this user's config from a dotfiles repo.
+      # The available paths and their priority can be found in the
+      # rendered `configsync.sls` file (currently, @TODO docs).
+      # Overview in descending priority:
+      # salt://dotconfig/id/<minion_id>/user/<user>/{{ cookiecutter.abbr }}
+      # salt://dotconfig/os/Fedora/user/<user>/{{ cookiecutter.abbr }}
+      # salt://dotconfig/os_family/Debian/user/<user>/{{ cookiecutter.abbr }}
+      # salt://dotconfig/default/user/<user>/{{ cookiecutter.abbr }}
+      # salt://dotconfig/id/<minion_id>/{{ cookiecutter.abbr }}
+      # salt://dotconfig/os/Fedora/{{ cookiecutter.abbr }}
+      # salt://dotconfig/os_family/Debian/{{ cookiecutter.abbr }}
+      # salt://dotconfig/default/{{ cookiecutter.abbr }}
+      # This means once any source for a specific user was found, it will
+      # override even minion-specific non-user-specific sources.
+    dotconfig:              # can be bool or mapping
+      file_mode: '0600'     # default: keep destination or salt umask (new)
+      dir_mode: '0700'      # default: 0700
+      clean: false          # delete files in target. default: false
+
+      # Persist environment variables used by this formula for this
+      # user to this file (will be appended to a file relative to $HOME)
+    persistenv: '.config/zsh/zshenv'
+
+      # Add runcom hooks specific to this formula to this file
+      # for this user (will be appended to a file relative to $HOME)
+    rchook: '.config/zsh/zshrc'
+
+      # This user's configuration for this formula. Will be overridden by
+      # user-specific configuration in `tool_{{ cookiecutter.abbr_pysafe }}:users`.
+      # Set this to `false` to disable configuration for this user.
+    {{ cookiecutter.abbr_pysafe }}:
+      someconf: someval
+
+Formula-specific
+^^^^^^^^^^^^^^^^
+
+.. code-block:: yaml
+
+  tool_{{ cookiecutter.abbr_pysafe }}:
+
+      # Specify an explicit version (works on most Linux distributions) or
+      # keep the packages updated to their latest version on subsequent runs
+      # by leaving version empty or setting it to 'latest'
+      # (again for Linux, brew does that anyways).
+    version: latest
+
+      # Default formula configuration for all users.
+    defaults:
+      someconf: someval
+
+
+Global files
+~~~~~~~~~~~~
+Some tools need global configuration files. A default one is provided with the formula, but can be overridden via the TOFS pattern. See :ref:`tofs_pattern` for details.
+
+Dotfiles
+~~~~~~~~
+`tool_{{ cookiecutter.abbr_pysafe }}.configsync` will recursively apply templates from
+
+* ``salt://dotconfig/id/<minion_id>/user/<user>/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/os/Fedora/user/<user>/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/os_family/Debian/user/<user>/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/default/user/<user>/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/id/<minion_id>/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/os/Fedora/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/os_family/Debian/{{ cookiecutter.abbr }}``
+* ``salt://dotconfig/default/{{ cookiecutter.abbr }}``
+
+to the user's config dir for every user that has it enabled (see ``user.dotconfig``). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
+
+The URL list above is in descending priority. This means once any source for a specific user was found, it will currently override even minion-specific non-user-specific sources.
+
+
+Development
+-----------
 
 Contributing to this repo
--------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Commit messages
 ^^^^^^^^^^^^^^^
 
-**Commit message formatting is significant!!**
+Commit message formatting is significant.
 
 Please see `How to contribute <https://github.com/saltstack-formulas/.github/blob/master/CONTRIBUTING.rst>`_ for more details.
 
@@ -59,128 +130,24 @@ pre-commit
 
 `pre-commit <https://pre-commit.com/>`_ is configured for this formula, which you may optionally use to ease the steps involved in submitting your changes.
 First install  the ``pre-commit`` package manager using the appropriate `method <https://pre-commit.com/#installation>`_, then run ``bin/install-hooks`` and
-now ``pre-commit`` will run automatically on each ``git commit``. ::
+now ``pre-commit`` will run automatically on each ``git commit``.
+
+.. code-block:: console
 
   $ bin/install-hooks
   pre-commit installed at .git/hooks/pre-commit
   pre-commit installed at .git/hooks/commit-msg
 
-Special notes
--------------
+State documentation
+~~~~~~~~~~~~~~~~~~~
+There is a script that semi-autodocuments available states: ``bin/slsdoc``.
 
-.. <REMOVEME
+If a ``.sls`` file begins with a Jinja comment, it will dump that into the docs. It can be configured differently depending on the formula. See the script source code for details currently.
 
-Using this template
-^^^^^^^^^^^^^^^^^^^
-
-The easiest way to use this template formula as a base for a new formula is to use GitHub's **Use this template** button to create a new repository. For consistency with the rest of the formula ecosystem, name your formula repository following the pattern ``<formula theme>-formula``, where ``<formula theme>`` consists of lower-case alphabetic characters, numbers, '-' or '_'.
-
-In the rest of this example we'll use ``example`` as the ``<formula theme>``.
-
-Follow these steps to complete the conversion from ``template-formula`` to ``example-formula``. ::
-
-  $ git clone git@github.com:YOUR-USERNAME/example-formula.git
-  $ cd example-formula/
-  $ bin/convert-formula.sh example
-  $ git push --force
-
-Alternatively, it's possible to clone ``template-formula`` into a new repository and perform the conversion there. For example::
-
-  $ git clone https://github.com/saltstack-formulas/template-formula example-formula
-  $ cd example-formula/
-  $ bin/convert-formula.sh example
-
-To take advantage of `semantic-release <https://github.com/semantic-release/semantic-release>`_ for automated changelog generation and release tagging, you will need a GitHub `Personal Access Token <https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line>`_ with at least the **public_repo** scope.
-
-In the Travis repository settings for your new repository, create an `environment variable <https://docs.travis-ci.com/user/environment-variables/#defining-variables-in-repository-settings>`_ named ``GH_TOKEN`` with the personal access token as value, restricted to the ``master`` branch for security.
-
-Note that this repository uses a `CODEOWNERS <https://help.github.com/en/github/creating-cloning-and-archiving-repositories/about-code-owners>`_ file to assign ownership to various parts of the formula. The conversion process removes overall ownership, but you should consider assigning ownership to yourself or your organisation when contributing your new formula to the ``saltstack-formulas`` organisation.
-
-.. REMOVEME>
-
-Available states
-----------------
-
-.. contents::
-   :local:
-
-``TEMPLATE``
-^^^^^^^^^^^^
-
-*Meta-state (This is a state that includes other states)*.
-
-This installs the TEMPLATE package,
-manages the TEMPLATE configuration file and then
-starts the associated TEMPLATE service.
-
-``TEMPLATE.package``
-^^^^^^^^^^^^^^^^^^^^
-
-This state will install the TEMPLATE package only.
-
-``TEMPLATE.config``
-^^^^^^^^^^^^^^^^^^^
-
-This state will configure the TEMPLATE service and has a dependency on ``TEMPLATE.install``
-via include list.
-
-``TEMPLATE.service``
-^^^^^^^^^^^^^^^^^^^^
-
-This state will start the TEMPLATE service and has a dependency on ``TEMPLATE.config``
-via include list.
-
-``TEMPLATE.clean``
-^^^^^^^^^^^^^^^^^^
-
-*Meta-state (This is a state that includes other states)*.
-
-this state will undo everything performed in the ``TEMPLATE`` meta-state in reverse order, i.e.
-stops the service,
-removes the configuration file and
-then uninstalls the package.
-
-``TEMPLATE.service.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This state will stop the TEMPLATE service and disable it at boot time.
-
-``TEMPLATE.config.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This state will remove the configuration of the TEMPLATE service and has a
-dependency on ``TEMPLATE.service.clean`` via include list.
-
-``TEMPLATE.package.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This state will remove the TEMPLATE package and has a depency on
-``TEMPLATE.config.clean`` via include list.
-
-``TEMPLATE.subcomponent``
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-*Meta-state (This is a state that includes other states)*.
-
-This state installs a subcomponent configuration file before
-configuring and starting the TEMPLATE service.
-
-``TEMPLATE.subcomponent.config``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This state will configure the TEMPLATE subcomponent and has a
-dependency on ``TEMPLATE.config`` via include list.
-
-``TEMPLATE.subcomponent.config.clean``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This state will remove the configuration of the TEMPLATE subcomponent
-and reload the TEMPLATE service by a dependency on
-``TEMPLATE.service.running`` via include list and ``watch_in``
-requisite.
+This means if you feel a state should be documented, make sure to write a comment explaining it.
 
 Testing
--------
+~~~~~~~
 
 Linux testing is done with ``kitchen-salt``.
 
@@ -192,9 +159,9 @@ Requirements
 
 .. code-block:: bash
 
-   $ gem install bundler
-   $ bundle install
-   $ bin/kitchen test [platform]
+  $ gem install bundler
+  $ bundle install
+  $ bin/kitchen test [platform]
 
 Where ``[platform]`` is the platform name defined in ``kitchen.yml``,
 e.g. ``debian-9-2019-2-py3``.
@@ -202,7 +169,7 @@ e.g. ``debian-9-2019-2-py3``.
 ``bin/kitchen converge``
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-Creates the docker instance and runs the ``TEMPLATE`` main state, ready for testing.
+Creates the docker instance and runs the ``tool_{{ cookiecutter.abbr_pysafe}}`` main state, ready for testing.
 
 ``bin/kitchen verify``
 ^^^^^^^^^^^^^^^^^^^^^^

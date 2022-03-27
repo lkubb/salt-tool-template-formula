@@ -15,7 +15,7 @@
       "Y:G@os_family",
       "Y:G@os",
       "Y:G@osfinger",
-      "C@" ~ tplroot ~ ":lookup",
+      "C@tool_global",
       "C@" ~ tplroot,
       "Y:G@id",
     ] %}
@@ -41,7 +41,7 @@
 
 {%- set _formula_settings = mapstack(
       matchers=_formula_matchers,
-      dirs=['tool_global', formula_param_dir],
+      dirs=['tool_global/parameters', formula_param_dir],
       defaults={
         "values": {},
         "merge_strategy": salt["config.get"](tplroot ~ ":strategy", None),
