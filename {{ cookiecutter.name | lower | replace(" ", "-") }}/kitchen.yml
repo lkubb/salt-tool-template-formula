@@ -13,7 +13,7 @@ provisioner:
   log_level: debug
   salt_install: none
   require_chef: false
-  formula: TEMPLATE
+  formula: tool_{{ cookiecutter.abbr_pysafe }}
   salt_copy_filter:
     - .kitchen
     - .git
@@ -338,8 +338,8 @@ suites:
       state_top:
         base:
           '*':
-            - TEMPLATE._mapdata
-            - TEMPLATE
+            - tool_{{ cookiecutter.abbr_pysafe }}._mapdata
+            - tool_{{ cookiecutter.abbr_pysafe }}
     verifier:
       inspec_tests:
         - path: test/integration/default

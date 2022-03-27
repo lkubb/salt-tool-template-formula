@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 ---
-{#- Get the `tplroot` from `tpldir` #}
+{% raw %}{#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata with context %}
 
@@ -19,4 +19,4 @@
     - source: salt://{{ tplroot }}/_mapdata/_mapdata.jinja
     - template: jinja
     - context:
-        map: {{ _mapdata | yaml }}
+        map: {{ _mapdata | yaml }}{% endraw %}

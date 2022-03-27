@@ -13,5 +13,5 @@
 ---
 values:
   pkg:
-    name: TEMPLATE-gentoo
+    manager: portage
 ...

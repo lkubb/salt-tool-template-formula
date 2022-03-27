@@ -12,5 +12,7 @@
 # values: {}
 ---
 values:
+  pkg:
+    manager: pkg
   rootgroup: wheel
 ...

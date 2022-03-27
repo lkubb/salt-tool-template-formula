@@ -1,4 +1,4 @@
-.. _map.jinja:
+{% raw %}.. _map.jinja:
 
 ``map.jinja``: gather formula configuration values
 ==================================================
@@ -539,4 +539,4 @@ This ``sls`` file expose a ``TEMPLATE`` context variable to the jinja template w
 .. _traverse: https://docs.saltproject.io/en/latest/topics/jinja/index.html#traverse
 .. _salt-ssh: https://docs.saltproject.io/en/latest/topics/ssh/
 .. _template-formula/TEMPLATE/config/file.sls: https://github.com/saltstack-formulas/template-formula/blob/master/TEMPLATE/config/file.sls
-.. _bug 58726: https://github.com/saltstack/salt/issues/58726
+.. _bug 58726: https://github.com/saltstack/salt/issues/58726{% endraw %}

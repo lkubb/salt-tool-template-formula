@@ -1,4 +1,4 @@
-{#- -*- coding: utf-8 -*- #}
+{% raw %}{#- -*- coding: utf-8 -*- #}
 {#- vim: ft=jinja #}
 
 {#- Get the relevant values from the `opts` dict #}
@@ -15,4 +15,4 @@
 {%- else %}
 {%-   set cli = 'unknown' %}
 {%- endif %}
-{%- do salt['log.debug']('[libsaltcli] the salt command type has been identified to be: ' ~ cli) %}
+{%- do salt['log.debug']('[libsaltcli] the salt command type has been identified to be: ' ~ cli) %}{% endraw %}

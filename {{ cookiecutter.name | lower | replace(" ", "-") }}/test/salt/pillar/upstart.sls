@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
-TEMPLATE:
+tool_{{ cookiecutter.abbr_pysafe }}:
   lookup:
     master: template-master
     # Just for testing purposes
     winner: lookup
     added_in_lookup: lookup_value
 
-  # Using bash package and udev service as an example. This allows us to
-  # test the template formula itself. You should set these parameters to
-  # examples that make sense in the contexto of the formula you're writing.
   pkg:
-    name: cronie
+    {{ cookiecutter.pkg }}
   service:
-    name: crond
-  config: /etc/template-formula.conf
+    {{ cookiecutter.pkg }}
+  config: /home/user/.config/{{ cookiecutter.abbr }}/config
 
   tofs:
     # The files_switch key serves as a selector for alternative
@@ -39,15 +36,15 @@ TEMPLATE:
     # The entries under `source_files` are prepended to the default source files
     # given for the state
     # source_files:
-    #   template-config-file-file-managed:
+    #   tool-{{ cookiecutter.abbr }}-config-file-file-managed:
     #     - 'example_alt.tmpl'
     #     - 'example_alt.tmpl.jinja'
 
     # For testing purposes
     source_files:
-      TEMPLATE-config-file-file-managed:
+      tool-{{ cookiecutter.abbr }}-config-file-file-managed:
         - 'example.tmpl.jinja'
-      TEMPLATE-subcomponent-config-file-file-managed:
+      tool-{{ cookiecutter.abbr }}-subcomponent-config-file-file-managed:
         - 'subcomponent-example.tmpl.jinja'
 
   # Just for testing purposes

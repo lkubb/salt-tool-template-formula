@@ -1,4 +1,4 @@
-{#- -*- coding: utf-8 -*- #}
+{% raw %}{#- -*- coding: utf-8 -*- #}
 {#- vim: ft=jinja #}
 
 {#- Get the `tplroot` from `tpldir` #}
@@ -41,7 +41,7 @@
 
 {%- set _formula_settings = mapstack(
       matchers=_formula_matchers,
-      dirs=[formula_param_dir],
+      dirs=['tool_global', formula_param_dir],
       defaults={
         "values": {},
         "merge_strategy": salt["config.get"](tplroot ~ ":strategy", None),
@@ -63,4 +63,4 @@
 
 {#- Per formula post-processing of `mapdata` if it exists #}
 {%- do salt["log.debug"]("map.jinja: post-processing of 'mapdata'") %}
-{%- include tplroot ~ "/post-map.jinja" ignore missing %}
+{%- include tplroot ~ "/post-map.jinja" ignore missing %}{% endraw %}

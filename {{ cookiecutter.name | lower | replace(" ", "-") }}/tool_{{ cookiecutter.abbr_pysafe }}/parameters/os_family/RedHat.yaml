@@ -13,6 +13,12 @@
 ---
 values:
   pkg:
-    name: TEMPLATE-redhat
-  config: /etc/TEMPLATE.conf
+    manager: yum
+    repos:
+      stable:
+        humanname: {{ cookiecutter.name }} stable
+        name: {{ cookiecutter.name }} stable
+        baseurl: https://FIXME/rpm/stable
+        key_url: https://FIXME/key.gpg
+        gpgcheck: 1
 ...

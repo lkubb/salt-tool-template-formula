@@ -6,7 +6,7 @@ values:
   added_in_lookup: lookup_value
   added_in_pillar: pillar_value
   arch: amd64
-  config: /etc/template-formula.conf
+  config: /home/user/.config/{{ cookiecutter.abbr }}/config
   lookup:
     added_in_lookup: lookup_value
     master: template-master
@@ -17,17 +17,17 @@ values:
     - Y:G@os_family
     - Y:G@os
     - Y:G@osfinger
-    - C@TEMPLATE:lookup
-    - C@TEMPLATE
+    - C@{{ cookiecutter.abbr_pysafe }}:lookup
+    - C@{{ cookiecutter.abbr_pysafe }}
     - Y:G@id
   master: template-master
   pkg:
-    name: app-shells/bash
+    name: {{ cookiecutter.pkg }}
   rootgroup: root
   service:
-    name: mtab
+    name: {{ cookiecutter.pkg }}
   subcomponent:
-    config: /etc/TEMPLATE-subcomponent-formula.conf
+    config: /home/user/.config/{{ cookiecutter.abbr }}/subcomponent/config
   tofs:
     files_switch:
     - any/path/can/be/used/here
@@ -37,8 +37,8 @@ values:
     - os
     - os_family
     source_files:
-      TEMPLATE-config-file-file-managed:
+      tool-{{ cookiecutter.abbr }}-config-file-file-managed:
       - example.tmpl.jinja
-      TEMPLATE-subcomponent-config-file-file-managed:
+      tool-{{ cookiecutter.abbr }}-subcomponent-config-file-file-managed:
       - subcomponent-example.tmpl.jinja
   winner: pillar

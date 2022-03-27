@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
-TEMPLATE:
+tool_{{ cookiecutter.abbr_pysafe }}:
   lookup:
     master: template-master
     # Just for testing purposes
     winner: lookup
     added_in_lookup: lookup_value
 
-  # Using bash package and udev service as an example. This allows us to
-  # test the template formula itself. You should set these parameters to
-  # examples that make sense in the contexto of the formula you're writing.
   pkg:
-    name: bash
+    name: {{ cookiecutter.pkg }}
   service:
-    name: systemd-journald
-  config: /etc/template-formula.conf
+    name: {{ cookiecutter.pkg }}
+  config: /home/user/.config/{{ cookiecutter.abbr }}/config
 
   tofs:
     # The files_switch key serves as a selector for alternative
@@ -33,7 +30,7 @@ TEMPLATE:
     # All aspects of path/file resolution are customisable using the options below.
     # This is unnecessary in most cases; there are sensible defaults.
     # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >
-    #         I.e.: salt://TEMPLATE/files/default
+    #         I.e.: salt://tool_{{ cookiecutter.abbr_pysafe }}/files/default
     # path_prefix: template_alt
     # dirs:
     #   files: files_alt
@@ -41,15 +38,15 @@ TEMPLATE:
     # The entries under `source_files` are prepended to the default source files
     # given for the state
     # source_files:
-    #   TEMPLATE-config-file-file-managed:
+    #   tool-{{ cookiecutter.abbr }}-config-file-file-managed:
     #     - 'example_alt.tmpl'
     #     - 'example_alt.tmpl.jinja'
 
     # For testing purposes
     source_files:
-      TEMPLATE-config-file-file-managed:
+      tool-{{ cookiecutter.abbr }}-config-file-file-managed:
         - 'example.tmpl.jinja'
-      TEMPLATE-subcomponent-config-file-file-managed:
+      tool-{{ cookiecutter.abbr }}-subcomponent-config-file-file-managed:
         - 'subcomponent-example.tmpl.jinja'
 
   # Just for testing purposes

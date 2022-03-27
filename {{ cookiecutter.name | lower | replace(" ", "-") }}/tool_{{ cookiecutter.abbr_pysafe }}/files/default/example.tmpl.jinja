@@ -1,4 +1,4 @@
-########################################################################
+{% raw %}########################################################################
 # File managed by Salt at <{{ source }}>.
 # Your changes will be overwritten.
 ########################################################################
@@ -6,6 +6,6 @@
 This is another example file from SaltStack template-formula.
 
 # This is here for testing purposes
-{{ TEMPLATE | json }}
+{{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %} | json }}
 
-winner of the merge: {{ TEMPLATE['winner'] }}
+winner of the merge: {{ {{ cookiecutter.abbr_pysafe }}['winner'] }}{% endraw %}

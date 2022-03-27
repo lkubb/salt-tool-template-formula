@@ -3,8 +3,8 @@
 ---
 portage:
   sync_wait_one_day: true
-TEMPLATE:
+tool_{{ cookiecutter.abbr_pysafe }}:
   pkg:
-    name: 'app-shells/bash'
+    name: {{ cookiecutter.pkg }}
   service:
-    name: "{{ 'systemd-journald' if grains.init == 'systemd' else 'mtab' }}"
+    name: {{ cookiecutter.pkg }}

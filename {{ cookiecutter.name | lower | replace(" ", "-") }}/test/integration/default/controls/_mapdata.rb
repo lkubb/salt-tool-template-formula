@@ -2,7 +2,7 @@
 
 require 'yaml'
 
-control 'TEMPLATE._mapdata' do
+control 'tool_{{ cookiecutter.abbr_pysafe}}._mapdata' do
   title '`map.jinja` should match the reference file'
 
   ### Method

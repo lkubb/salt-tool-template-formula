@@ -13,7 +13,5 @@
 ---
 values:
   pkg:
-    name: TEMPLATE-arch
-  service:
-    name: service-arch
+    manager: pacman
 ...

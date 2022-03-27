@@ -1,4 +1,4 @@
-# yamllint disable rule:indentation rule:line-length
+{% raw %}# yamllint disable rule:indentation rule:line-length
 # {{ grains.get("osfinger", grains.os) }}
 ---
 {#- use salt.slsutil.serialize to avoid encoding errors on some platforms #}
@@ -10,4 +10,4 @@
    )
    | regex_replace("^\s+'$", "'", multiline=True)
    | trim
-}}
+}}{% endraw %}

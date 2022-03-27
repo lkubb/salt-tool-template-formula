@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{#- Get the `tplroot` from `tpldir` #}
+{% raw %}{#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- set sls_config_clean = tplroot ~ '.config.clean' %}
-{%- from tplroot ~ "/map.jinja" import mapdata as TEMPLATE with context %}
+{%- from tplroot ~ "/map.jinja" import mapdata as {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %} with context %}
 
 include:
   - {{ sls_config_clean }}
 
-TEMPLATE-package-clean-pkg-removed:
+{% endraw %}{{ cookiecutter.name }}{% raw %} is removed:
   pkg.removed:
-    - name: {{ TEMPLATE.pkg.name }}
+    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.pkg.name }}
     - require:
-      - sls: {{ sls_config_clean }}
+      - sls: {{ sls_config_clean }}{% endraw %}

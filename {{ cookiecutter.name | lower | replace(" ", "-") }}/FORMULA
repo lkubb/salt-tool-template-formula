@@ -1,9 +1,9 @@
-name: TEMPLATE
+name: tool-{{ cookiecutter.abbr }}
 os: Debian, Ubuntu, Raspbian, RedHat, Fedora, CentOS, Amazon, Oracle, Suse, openSUSE, Gentoo, Funtoo, Arch, Manjaro, Alpine, FreeBSD, OpenBSD, Solaris, SmartOS, Windows, MacOS
-os_family: Debian, RedHat, Suse, Gentoo, Arch, Alpine, FreeBSD, OpenBSD, Solaris, Windows, MacOS
-version: 5.0.8
+os_family: Debian, RedHat, Suse, Gentoo, Arch, FreeBSD, OpenBSD, Windows, MacOS
+version: 1.0.0
 release: 1
-minimum_version: 2019.2
-summary: TEMPLATE formula
-description: Formula to use as a template for other formulas
-top_level_dir: TEMPLATE
+minimum_version: 3004
+summary: tool-{{ cookiecutter.abbr }} formula
+description: Formula to manage {{ cookiecutter.name }} inside the user environment
+top_level_dir: tool_{{ cookiecutter.abbr_pysafe }}

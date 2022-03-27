@@ -1,4 +1,4 @@
-.. _tofs_pattern:
+{% raw %}.. _tofs_pattern:
 
 TOFS: A pattern for using SaltStack
 ===================================
@@ -515,4 +515,4 @@ will be rendered on a ``Debian`` minion named ``salt-formula.ci.local`` as:
          - salt://formula/component/files/default/formula.conf
          - salt://formula/files/salt-formula.ci.local/formula.conf
          - salt://formula/files/Debian/formula.conf
-         - salt://formula/files/default/formula.conf
+         - salt://formula/files/default/formula.conf{% endraw %}

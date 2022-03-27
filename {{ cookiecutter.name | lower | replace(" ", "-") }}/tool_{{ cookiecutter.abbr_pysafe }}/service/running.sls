@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{#- Get the `tplroot` from `tpldir` #}
+{% raw %}{#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- set sls_config_file = tplroot ~ '.config.file' %}
-{%- from tplroot ~ "/map.jinja" import mapdata as TEMPLATE with context %}
+{%- from tplroot ~ "/map.jinja" import mapdata as {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %} with context %}
 
 include:
   - {{ sls_config_file }}
 
-TEMPLATE-service-running-service-running:
+tool-{% endraw %}{{ cookiecutter.abbr }}{% raw %}-service-running-service-running:
   service.running:
-    - name: {{ TEMPLATE.service.name }}
+    - name: {{ {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.service.name }}
     - enable: True
     - watch:
       - sls: {{ sls_config_file }}
+      - sls: {{ tplroot ~ '.configsync' }}{% endraw %}

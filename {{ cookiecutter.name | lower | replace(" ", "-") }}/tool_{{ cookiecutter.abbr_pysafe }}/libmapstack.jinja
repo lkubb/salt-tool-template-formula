@@ -1,4 +1,4 @@
-{#- -*- coding: utf-8 -*- #}
+{% raw %}{#- -*- coding: utf-8 -*- #}
 {#- vim: ft=jinja #}
 
 {#- Get the `tplroot` from `tpldir` #}
@@ -312,4 +312,4 @@
 {#- `{%- set config = mapstack(matchers=["foo"]) | load_yaml %}` #}
 {{ stack | yaml }}
 
-{%- endmacro %}
+{%- endmacro %}{% endraw %}
