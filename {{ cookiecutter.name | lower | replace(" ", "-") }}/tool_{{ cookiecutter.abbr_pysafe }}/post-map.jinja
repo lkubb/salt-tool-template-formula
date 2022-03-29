@@ -1,4 +1,6 @@
-{% raw -%}{#- get dict of user configurations -#}
+{% raw -%}{#- -*- coding: utf-8 -*- #}
+{#- vim: ft=jinja #}
+
 {%- set users = {} -%}
 
 {%- set user_settings = ['xdg', 'dotconfig', 'persistenv', 'rchook', 'completions', tplroot[5:]] -%}
@@ -47,4 +49,4 @@ state: {{ salt['cmd.run']('[ -n "$XDG_STATE_HOME" ] && echo "${XDG_STATE_HOME}" 
 {%- endfor -%}
 
 {#- finally embed parsed user config and info in mapdata -#}
-{%- do mapdata.update({'users': users.values() | list}) -%}{% endraw -%}
+{%- do mapdata.update({'users': users.values() | list}) -%}{% endraw %}

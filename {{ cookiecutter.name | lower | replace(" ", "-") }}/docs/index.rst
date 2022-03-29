@@ -10,7 +10,7 @@
    toolsuite
    states
    pillar
-{%- if cookiecutter.modstate %}
+{%- if 'y' == cookiecutter.modstate %}
    modules_execution/index
    modules_state/index
 {%- endif %}

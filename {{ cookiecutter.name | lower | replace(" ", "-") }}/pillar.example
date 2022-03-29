@@ -16,8 +16,8 @@
 
 # Apart from the various source files, there are two independent source trees
 # for user-specific configuration.
-# Generally tool_{{ cookiecutter.abbr_pysafe }} > tool_users.
-# `tool_users` focuses on specific users, of which most values
+# Generally tool_{{ cookiecutter.abbr_pysafe }} > tool_global.
+# `tool_global` focuses on specific users, of which most values
 # will be respected by all formulae in the `tool` suite:
 tool_global:
   users:

@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "salt_tool_{{ cookiecutter.abbr_pysafe }}"
 version = "1.0.0"
-description = "Saltstack {%- if 'y' == cookiecutter.modstate %}execution/state modules and {%- endif %}states to manage {{ cookiecutter.name }}"
+description = "Saltstack {% if 'y' == cookiecutter.modstate %}execution/state modules and {% endif %}states to manage {{ cookiecutter.name }}"
 authors = ["{{ cookiecutter.git_username }}"]
 
 [tool.poetry.dependencies]
