@@ -1,4 +1,4 @@
-.. _em_asdf:
+.. _em_{{ cookiecutter.abbr_pysafe }}:
 
 {{ cookiecutter.abbr_pysafe }} execution module
 {{ '=' * cookiecutter.abbr_pysafe | length }}=================
