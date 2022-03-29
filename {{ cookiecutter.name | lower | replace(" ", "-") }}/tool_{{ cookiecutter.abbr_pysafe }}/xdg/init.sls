@@ -11,19 +11,28 @@ include:
 
 {%- for user in {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.users | rejectattr('xdg', 'sameas', False) | list %}
 
+{% endraw %}{{ cookiecutter.name }}{% raw %} has its config dir in XDG_CONFIG_HOME for user '{{ user.name }}':
+  file.directory:
+    - name: {{ user.xdg.config | path_join(tplroot[5:]) }}
+    - user: {{ user.name }}
+    - group: {{ user.group }}
+    - mode: '0700'
+    - makedirs: true
+    - onlyif:
+      - test -e '{{ user.home | path_join({% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.config.default_confdir) }}'
+
 Existing {% endraw %}{{ cookiecutter.name }}{% raw %} configuration is migrated for user '{{ user.name }}':
   file.rename:
-    - name: {{ salt["file.join"](user.xdg.config, {% endraw %}'{{ cookiecutter.abbr }}'{% raw %}) }}
-    - source: {{ salt["file.join"](user.home, {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.default_confdir) }}
-    - onlyif:
-      - test -e {{ salt["file.join"](user.home, {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.default_confdir) }}
-    - makedirs: true
+    - name: {{ user.xdg.config | path_join(tplroot[5:]) }}
+    - source: {{ user.home | path_join({% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.config.default_confdir) }}
+    - require:
+      - {% endraw %}{{ cookiecutter.name }}{% raw %} has its config dir in XDG_CONFIG_HOME for user '{{ user.name }}'
     - require_in:
       - {% endraw %}{{ cookiecutter.name }}{% raw %} setup is completed
 
 {% endraw %}{{ cookiecutter.name }}{% raw %} has its config file in XDG_CONFIG_HOME for user '{{ user.name }}':
   file.managed:
-    - name: {{ salt["file.join"](user.xdg.config, {% endraw %}'{{ cookiecutter.abbr }}'{% raw %}, 'config') }}
+    - name: {{ user.xdg.config | path_join(tplroot[5:], {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.config.default_xdg_conffile) }}
     - user: {{ user.name }}
     - group: {{ user.group }}
     - replace: False
@@ -36,15 +45,15 @@ Existing {% endraw %}{{ cookiecutter.name }}{% raw %} configuration is migrated 
 {% endraw %}{{ cookiecutter.name }}{% raw %} uses XDG dirs during this salt run:
   environ.setenv:
     - value:
-        CONF: {{ salt["file.join"](user.xdg.config, {% endraw %}'{{ cookiecutter.abbr }}'{% raw %}, 'config') }}
+        CONF: {{ user.xdg.config | path_join(tplroot[5:] | {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.config.default_xdg_conffile) }}
     - require_in:
       - {% endraw %}{{ cookiecutter.name }}{% raw %} setup is completed
 
   {%- if user.get('persistenv') %}
 {% endraw %}{{ cookiecutter.name }}{% raw %} knows about XDG location for user '{{ user.name }}':
   file.append:
-    - name: {{ salt["file.join"](user.home, user.persistenv) }}
-    - text: export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/{% endraw %}{{ cookiecutter.abbr }}{% raw %}"
+    - name: {{ user.home | path_join(user.persistenv) }}
+    - text: export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/{{ tplroot[5:] }}"
     - user: {{ user.name }}
     - group: {{ user.group }}
     - mode: '0600'

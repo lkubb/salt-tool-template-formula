@@ -26,9 +26,9 @@
     - template: jinja
     - user: {{ user.name }}
     - group: {{ user.group }}
-  {%- if dotconfig.get('file_mode') %}
+{%-   if dotconfig.get('file_mode') %}
     - file_mode: '{{ dotconfig.file_mode }}'
-  {%- endif %}
+{%-   endif %}
     - dir_mode: '{{ dotconfig.get('dir_mode', '0700') }}'
     - clean: {{ dotconfig.get('clean', False) | to_bool }}
     - makedirs: True

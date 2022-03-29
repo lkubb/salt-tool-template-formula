@@ -42,9 +42,15 @@ data: {{ salt['cmd.run']('[ -n "$XDG_DATA_HOME" ] && echo "${XDG_DATA_HOME}" || 
 state: {{ salt['cmd.run']('[ -n "$XDG_STATE_HOME" ] && echo "${XDG_STATE_HOME}" || echo "${HOME}/.local/state"', runas=user) }}
     {%- endload -%}
     {%- do users[user].update({'xdg': xdg}) -%}
-    {%- do users[user]['_' ~ tplroot[5:]].update({'confdir': xdg.config ~ '/' ~ tplroot[5:], 'conffile': mapdata.lookup.config.default_xdg_conffile }) -%}
+    {%- do users[user]['_' ~ tplroot[5:]].update({
+        'confdir': xdg.config | path_join(tplroot[5:]),
+        'conffile': mapdata.lookup.config.default_xdg_conffile })
+    -%}
   {%- else -%}
-    {%- do users[user]['_'~ tplroot[5:]].update({'confdir': users[user].home ~ default_confdir, 'conffile': mapdata.lookup.config.default_conffile}) -%}
+    {%- do users[user]['_'~ tplroot[5:]].update({
+        'confdir': users[user].home | path_join(mapdata.lookup.config.default_confdir),
+        'conffile': mapdata.lookup.config.default_conffile})
+    -%}
   {%- endif -%}
 {%- endfor -%}
 

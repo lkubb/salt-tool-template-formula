@@ -7,29 +7,29 @@
 
 {%- for user in {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.users | rejectattr('xdg', 'sameas', False) | list %}
 
-Existing {% endraw %}{{ cookiecutter.name }}{% raw %} configuration is reverted to default for user '{{ user.name }}':
+{% endraw %}{{ cookiecutter.name }}{% raw %} configuration is cluttering $HOME for user '{{ user.name }}':
   file.rename:
-    - name: {{ salt["file.join"](user.home, {% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.default_confdir) }}
-    - source: {{ salt["file.join"](user.xdg.config, {% endraw %}'{{ cookiecutter.abbr }}'{% raw %}) }}
-    - onlyif:
-      - test -e {{ salt["file.join"](user.xdg.config, {% endraw %}'{{ cookiecutter.abbr }}'{% raw %}) }}
-    - makedirs: true
+    - name: {{ user.home | path_join({% endraw %}{{ cookiecutter.abbr_pysafe }}{% raw %}.lookup.config.default_confdir) }}
+    - source: {{ user.xdg.config | path_join(tplroot[5:]) }}
 
-{% endraw %}{{ cookiecutter.name }}{% raw %} does not have its config file in XDG_CONFIG_HOME for user '{{ user.name }}':
+{% endraw %}{{ cookiecutter.name }}{% raw %} does not have its config folder in XDG_CONFIG_HOME for user '{{ user.name }}':
   file.absent:
-    - name: {{ salt["file.join"](user.xdg.config, {% endraw %}'{{ cookiecutter.abbr }}'{% raw %}, 'config') }}
+    - name: {{ user.xdg.config | path_join(tplroot[5:]) }}
+    - require:
+      - {% endraw %}{{ cookiecutter.name }}{% raw %} configuration is cluttering $HOME for user '{{ user.name }}'
 
 {% endraw %}{{ cookiecutter.name }}{% raw %} does not use XDG dirs during this salt run:
   environ.setenv:
     - value:
-        CONF: ''
+        CONF: false
+    - false_unsets: true
 
   {%- if user.get('persistenv') %}
-{% endraw %}{{ cookiecutter.name }}{% raw %} knows about XDG location for user '{{ user.name }}':
+{% endraw %}{{ cookiecutter.name }}{% raw %} is ignorant about XDG location for user '{{ user.name }}':
   file.replace:
-    - name: {{ salt["file.join"](user.home, user.persistenv) }}
-    - text: ^{{ 'export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/{% endraw %}{{ cookiecutter.abbr }}{% raw %}"' | regex_escape }}$
+    - name: {{ user.home | path_join(user.persistenv) }}
+    - text: ^{{ 'export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/' ~ tplroot[5:] ~ '"' | regex_escape }}$
     - repl: ''
     - ignore_if_missing: true
   {%- endif %}
-{%- endfor %}{%- endraw %}
+{%- endfor %}{% endraw %}
