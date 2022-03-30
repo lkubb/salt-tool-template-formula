@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "salt_tool_{= cookiecutter.abbr_pysafe =}"
+version = "1.0.0"
+description = "Saltstack {! if 'y' == cookiecutter.modstate !}execution/state modules and {! endif !}states to manage {= cookiecutter.name =}"
+authors = ["{= cookiecutter.git_username =}"]
+
+[tool.poetry.dependencies]
+python = "^3.6.2"
+
+[tool.poetry.dev-dependencies]
+{!- if 'y' == cookiecutter.modstate !}
+salt = "^3004"
+black = "^21.12b0"
+mypy = "^0.931"
+flake8 = "^4"
+{!- endif !}
+Sphinx = "^4"
+# this is the official saltstack theme
+# sphinx-material-saltstack = "^1.0.5"
+sphinx-rtd-theme = "^1.0.0"
+# fulltoc has an issue with recent Sphinx versions ('easily' fixable in the source code though)
+# sphinxcontrib-fulltoc = "^1.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

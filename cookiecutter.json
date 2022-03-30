@@ -1,14 +1,24 @@
 {
+    "_jinja2_env_vars": {
+        "block_start_string": "{!",
+        "block_end_string": "!}",
+        "variable_start_string": "{=",
+        "variable_end_string": "=}",
+        "comment_start_string": "{@",
+        "comment_end_string": "@}"
+    },
     "name": "salt-tool Boilerplate",
     "abbr": "{{ cookiecutter.name | lower }}",
-    "abbr_pysafe": "{{ cookiecutter.abbr | replace('-', '_') }}",
-    "pkg": "{{ cookiecutter.abbr | lower }}",
+    "abbr_pysafe": "{{ cookiecutter.abbr | slugify(separator='_') }}",
+    "pkg": "{{ cookiecutter.abbr | slugify }}",
     "mac_library": "y",
     "mac_cask": "y",
     "has_xdg": "y",
     "default_xdg": "y",
-    "default_confdir": "{{ '.config/' if cookiecutter.default_xdg == 'y' else '.' ~  cookiecutter.abbr | lower }}",
-    "default_confdir_mac": "{{ 'Library/Application Support/' ~ cookiecutter.name if cookiecutter.mac_library == 'y' else cookiecutter.default_confdir }}",
+    "has_conffile_only": "n",
+    "default_confdir": "{% if 'n' == cookiecutter.has_conffile_only %}{{ '.config/' ~ cookiecutter.pkg if cookiecutter.default_xdg == 'y' else '.' ~  cookiecutter.pkg }}{% endif %}",
+    "default_confdir_mac": "{% if 'n' == cookiecutter.has_conffile_only %}{{ 'Library/Application Support/' ~ cookiecutter.name if cookiecutter.mac_library == 'y' else cookiecutter.default_confdir }}{% endif %}",
+    "default_conffile": "{% if 'n' == cookiecutter.has_conffile_only or 'y' == cookiecutter.default_xdg %}config{% else %}.{{ cookiecutter.pkg }}{% endif %}",
     "git_username": "none",
     "modstate": "n"
 }
