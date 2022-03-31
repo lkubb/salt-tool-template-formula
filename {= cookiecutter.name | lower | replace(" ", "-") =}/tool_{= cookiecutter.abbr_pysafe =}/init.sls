@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{#- Get the `tplroot` from `tpldir` #}
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
-
 include:
   - .package
-{%- if {= cookiecutter.abbr =}.users | rejectattr('xdg', 'sameas', False) | list %}
+{!- if 'y' == cookiecutter.needs_xdg_help !}
   - .xdg
-{%- endif %}
-{%- if {= cookiecutter.abbr =}.users | selectattr('dotconfig', 'defined') | selectattr('dotconfig') | list %}
-  - .configsync
-{%- endif %}
+{!- endif !}
+{!- if 'y' == cookiecutter.has_configsync or 'y' == cookiecutter.has_config_template !}
+  - .config
+{!- endif !}
+{!- if 'y' == cookiecutter.has_service !}
+  - .service
+{!- endif !}

@@ -15,6 +15,7 @@ values:
   lookup:
     pkg:
       manager: zypper
+{!- if 'y' == cookiecutter.needs_repo !}
       repos:
         stable:
           humanname: {= cookiecutter.name =} stable
@@ -23,4 +24,5 @@ values:
           key_url: https://FIXME/key.gpg
           gpgcheck: 1
           gpgautoimport: true
+{!- endif !}
 ...

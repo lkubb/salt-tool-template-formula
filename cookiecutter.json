@@ -1,4 +1,5 @@
 {
+    "_extensions": ["local_extensions.YAMLDumper"],
     "_jinja2_env_vars": {
         "block_start_string": "{!",
         "block_end_string": "!}",
@@ -11,14 +12,25 @@
     "abbr": "{{ cookiecutter.name | lower }}",
     "abbr_pysafe": "{{ cookiecutter.abbr | slugify(separator='_') }}",
     "pkg": "{{ cookiecutter.abbr | slugify }}",
+    "modstate": "n",
+    "needs_repo": "n",
+    "has_service": "n",
     "mac_library": "y",
     "mac_cask": "y",
     "has_xdg": "y",
-    "default_xdg": "y",
+    "needs_xdg_help": "n",
     "has_conffile_only": "n",
-    "default_confdir": "{% if 'n' == cookiecutter.has_conffile_only %}{{ '.config/' ~ cookiecutter.pkg if cookiecutter.default_xdg == 'y' else '.' ~  cookiecutter.pkg }}{% endif %}",
+    "default_confdir": "{% if 'n' == cookiecutter.has_conffile_only %}{{ '.config/' ~ cookiecutter.pkg if cookiecutter.needs_xdg_help != 'y' else '.' ~  cookiecutter.pkg }}{% endif %}",
     "default_confdir_mac": "{% if 'n' == cookiecutter.has_conffile_only %}{{ 'Library/Application Support/' ~ cookiecutter.name if cookiecutter.mac_library == 'y' else cookiecutter.default_confdir }}{% endif %}",
-    "default_conffile": "{% if 'n' == cookiecutter.has_conffile_only or 'y' == cookiecutter.default_xdg %}config{% else %}.{{ cookiecutter.pkg }}{% endif %}",
+    "default_conffile": "{% if 'n' == cookiecutter.has_conffile_only or 'y' != cookiecutter.needs_xdg_help %}config{% else %}.{{ cookiecutter.pkg }}{% endif %}",
+    "xdg_dirname": "{{ cookiecutter.pkg if 'y' == cookiecutter.needs_xdg_help else cookiecutter.default_confdir }}",
+    "xdg_conffile": "{{ cookiecutter.default_conffile[cookiecutter.default_conffile.startswith('.') | int:] }}",
+    "has_configsync": "y",
+    "has_config_template": "n",
+    "has_tests": "y",
     "git_username": "none",
-    "modstate": "n"
+    "_settings": {},
+    "_usersettings": {
+        "someconf": "someval"
+    }
 }

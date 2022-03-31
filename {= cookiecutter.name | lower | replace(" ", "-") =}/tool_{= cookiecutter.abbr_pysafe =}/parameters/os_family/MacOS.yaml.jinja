@@ -17,11 +17,14 @@
 ---
 values:
   lookup:
-    default_confdir: '{= cookiecutter.default_confdir_mac =}'
+{!- if cookiecutter.default_confdir_mac != cookiecutter.default_confdir !}
+    paths:
+      confdir: '{= cookiecutter.default_confdir_mac =}'
+{!- endif !}
     pkg:
-      manager: brew
-  {!- if 'y' == cookiecutter.mac_cask !}
+{!- if 'y' == cookiecutter.mac_cask !}
       name: homebrew/cask/{= cookiecutter.pkg =}
-  {!- endif !}
+{!- endif !}
+      manager: brew
     rootgroup: {{ salt['cmd.run']("stat -f '%Sg' /dev/console") }}
 ...

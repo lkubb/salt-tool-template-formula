@@ -38,6 +38,7 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
   user:
       # Force the usage of XDG directories for this user.
     xdg: true
+{!- if 'y' == cookiecutter.has_configsync !}
 
       # Sync this user's config from a dotfiles repo.
       # The available paths and their priority can be found in the
@@ -57,6 +58,7 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
       file_mode: '0600'     # default: keep destination or salt umask (new)
       dir_mode: '0700'      # default: 0700
       clean: false          # delete files in target. default: false
+{!- endif !}
 
       # Persist environment variables used by this formula for this
       # user to this file (will be appended to a file relative to $HOME)
@@ -66,11 +68,14 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
       # for this user (will be appended to a file relative to $HOME)
     rchook: '.config/zsh/zshrc'
 
-      # This user's configuration for this formula. Will be overridden by
-      # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
-      # Set this to `false` to disable configuration for this user.
-    {= cookiecutter.abbr_pysafe =}:
-      someconf: someval
+{!- if cookiecutter._usersettings !}
+
+        # This user's configuration for this formula. Will be overridden by
+        # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
+        # Set this to `false` to disable configuration for this user.
+      {= cookiecutter.abbr_pysafe =}:
+        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
+{!- endif !}
 
 Formula-specific
 ^^^^^^^^^^^^^^^^
@@ -85,14 +90,25 @@ Formula-specific
       # (again for Linux, brew does that anyways).
     version: latest
 
+{!- if cookiecutter._settings !}
+    {= cookiecutter._settings | yaml(False) | indent(4) =}
+{!- endif !}
+
+{!- if cookiecutter._usersettings | first !}
+
       # Default formula configuration for all users.
     defaults:
-      someconf: someval
+      {= cookiecutter._usersettings | first =}: default value for all users
+{!- endif !}
 
+{!- if cookiecutter.has_config_template !}
 
-Global files
-~~~~~~~~~~~~
-Some tools need global configuration files. A default one is provided with the formula, but can be overridden via the TOFS pattern. See :ref:`tofs_pattern` for details.
+Config file serialization
+~~~~~~~~~~~~~~~~~~~~~~~~~
+This formula serializes configuration into a config file. A default one is provided with the formula, but can be overridden via the TOFS pattern. See :ref:`tofs_pattern` for details.
+{!- endif !}
+
+{!- if 'y' == cookiecutter.has_configsync !}
 
 Dotfiles
 ~~~~~~~~
@@ -110,7 +126,7 @@ Dotfiles
 to the user's config dir for every user that has it enabled (see ``user.dotconfig``). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
 
 The URL list above is in descending priority. This means once any source for a specific user was found, it will currently override even minion-specific non-user-specific sources.
-
+{!- endif !}
 
 Development
 -----------
@@ -145,6 +161,8 @@ There is a script that semi-autodocuments available states: ``bin/slsdoc``.
 If a ``.sls`` file begins with a Jinja comment, it will dump that into the docs. It can be configured differently depending on the formula. See the script source code for details currently.
 
 This means if you feel a state should be documented, make sure to write a comment explaining it.
+
+{!- if 'n' != cookiecutter.has_tests !}
 
 Testing
 ~~~~~~~
@@ -190,3 +208,4 @@ Runs all of the stages above in one go: i.e. ``destroy`` + ``converge`` + ``veri
 ^^^^^^^^^^^^^^^^^^^^^
 
 Gives you SSH access to the instance for manual testing.
+{!- endif!}

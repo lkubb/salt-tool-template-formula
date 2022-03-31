@@ -11,7 +11,9 @@
   # `stage`
   stage_lint: &stage_lint 'lint'
   stage_release: &stage_release 'release'
+{!- if 'y' == cookiecutter.has_tests !}
   stage_test: &stage_test 'test'
+{!- endif !}
   # `image`
   image_commitlint: &image_commitlint 'myii/ssf-commitlint:11'
   image_dindruby: &image_dindruby 'myii/ssf-dind-ruby:2.7.1-r3'
@@ -41,8 +43,11 @@
 ###############################################################################
 stages:
   - *stage_lint
+{!- if 'y' == cookiecutter.has_tests !}
   - *stage_test
+{!- endif !}
   - *stage_release
+}
 variables:
   DOCKER_DRIVER: 'overlay2'
 
@@ -99,6 +104,8 @@ rubocop:
   image: *image_rubocop
   script:
     - 'rubocop -d -P -S --enable-pending-cops'
+
+{!- if 'y' == cookiecutter.has_tests !}
 
 ###############################################################################
 # Define `test` template
@@ -211,6 +218,7 @@ default-rockylinux-8-master-py3: {extends: '.test_instance'}
 # default-gentoo-stage3-latest-3002-7-py3: {extends: '.test_instance'}
 # default-gentoo-stage3-systemd-3002-7-py3: {extends: '.test_instance'}
 # yamllint enable rule:line-length
+{!- endif !}
 
 ###############################################################################
 # `release` stage: `semantic-release`

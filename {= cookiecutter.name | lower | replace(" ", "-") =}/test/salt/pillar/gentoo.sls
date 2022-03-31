@@ -4,7 +4,8 @@
 portage:
   sync_wait_one_day: true
 tool_{= cookiecutter.abbr_pysafe =}:
-  pkg:
-    name: {= cookiecutter.pkg =}
-  service:
-    name: {= cookiecutter.pkg =}
+  lookup:
+    pkg:
+      name: {= cookiecutter.pkg =}
+    service:
+      name: {= cookiecutter.pkg =}

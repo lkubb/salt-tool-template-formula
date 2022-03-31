@@ -12,13 +12,13 @@
 
 {= cookiecutter.name =} configuration is synced for user '{{ user.name }}':
   file.recurse:
-    - name: {{ user['_' ~ tplroot[5:]].confdir }}
+    - name: {{ user['_{= cookiecutter.abbr_pysafe =}'].confdir }}
     - source: {{ files_switch(
-                [salt['file.join']('user', user.name, tplroot[5:])],
+                ['user/' ~ user.name ~ '/{= cookiecutter.xdg_dirname =}')],
                 default_files_switch=['id', 'os', 'os_family'],
                 override_root='dotconfig') }}
               {{ files_switch(
-                [tplroot[5:]],
+                ['{= cookiecutter.xdg_dirname =}'],
                 default_files_switch=['id', 'os', 'os_family'],
                 override_root='dotconfig') }}
     - context:
@@ -31,5 +31,5 @@
 {%-   endif %}
     - dir_mode: '{{ dotconfig.get('dir_mode', '0700') }}'
     - clean: {{ dotconfig.get('clean', False) | to_bool }}
-    - makedirs: True
+    - makedirs: true
 {%- endfor %}

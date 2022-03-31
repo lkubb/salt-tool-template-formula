@@ -7,15 +7,22 @@ values:
   lookup:
     pkg:
       name: {= cookiecutter.pkg =}
+{!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
         - stable
+{!- endif !}
+    paths:
+      confdir: '{= cookiecutter.default_confdir =}'
+      conffile: '{= cookiecutter.default_conffile =}'
+{!- if 'y' == cookiecutter.needs_xdg_help !}
+      xdg_dirname: '{= cookiecutter.xdg_dirname =}'
+      xdg_conffile: '{= cookiecutter.xdg_conffile =}'
+{!- endif !}
     rootgroup: root
-    config:
-      default_confdir: '{= cookiecutter.default_confdir =}'
-      default_conffile: 'config'
-      default_xdg_conffile: 'config'
-    subcomponent:
-      config: '{= cookiecutter.default_confdir =}/subcomponent'
+{!- if 'y' == cookiecutter.has_service !}
+    service:
+      name: {= cookiecutter.pkg =}
+{!- endif !}
   # Just here for testing
   added_in_defaults: defaults_value
   winner: defaults

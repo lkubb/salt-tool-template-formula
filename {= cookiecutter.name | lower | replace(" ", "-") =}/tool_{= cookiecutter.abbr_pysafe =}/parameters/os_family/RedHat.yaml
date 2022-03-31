@@ -15,6 +15,7 @@ values:
   lookup:
     pkg:
       manager: yum
+{!- if 'y' == cookiecutter.needs_repo !}
       repos:
         stable:
           humanname: {= cookiecutter.name =} stable
@@ -22,4 +23,5 @@ values:
           baseurl: https://FIXME/rpm/stable
           key_url: https://FIXME/key.gpg
           gpgcheck: 1
+{!- endif !}
 ...

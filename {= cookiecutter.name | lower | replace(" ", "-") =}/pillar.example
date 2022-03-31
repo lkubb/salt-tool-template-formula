@@ -27,6 +27,7 @@ tool_global:
 
         # Force the usage of XDG directories for this user.
       xdg: true
+{!- if 'y' == cookiecutter.has_configsync !}
 
         # Sync this user's config from a dotfiles repo.
         # The available paths and their priority can be found in the
@@ -46,6 +47,7 @@ tool_global:
         file_mode: '0600'     # default: keep destination or salt umask (new)
         dir_mode: '0700'      # default: 0700
         clean: false          # delete files in target. default: false
+{!- endif !}
 
         # Persist environment variables used by this formula for this
         # user to this file (will be appended to a file relative to $HOME)
@@ -55,11 +57,14 @@ tool_global:
         # for this user (will be appended to a file relative to $HOME)
       rchook: '.config/zsh/zshrc'
 
+{!- if cookiecutter._usersettings !}
+
         # This user's configuration for this formula. Will be overridden by
         # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
         # Set this to `false` to disable configuration for this user.
       {= cookiecutter.abbr_pysafe =}:
-      someconf: someval
+        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
+{!- endif !}
 
 tool_{= cookiecutter.abbr_pysafe =}:
 
@@ -69,9 +74,16 @@ tool_{= cookiecutter.abbr_pysafe =}:
     # (again for Linux, brew does that anyways).
   version: latest
 
+{!- if cookiecutter._settings !}
+  {= cookiecutter._settings | yaml(False) | indent(2) =}
+{!- endif !}
+
+{!- if cookiecutter._usersettings | first !}
+
     # Default formula configuration for all users.
   defaults:
-    someconf: someval
+    {= cookiecutter._usersettings | first =}: default value for all users
+{!- endif !}
 
     # User configuration can also be specified here in
     # `tool_{= cookiecutter.abbr_pysafe =}:users`. It will override
@@ -79,8 +91,10 @@ tool_{= cookiecutter.abbr_pysafe =}:
   users:
     user:
       persistenv: '.bash_profile'
+{!- if cookiecutter._usersettings | first !}
       {= cookiecutter.abbr =}:
-        someconf: someval
+        {= cookiecutter._usersettings | first =}: this overrides config from tool_globl:users
+{!- endif !}
 
 ######################################################################
 # The following settings define default values for this formula,
@@ -91,15 +105,18 @@ tool_{= cookiecutter.abbr_pysafe =}:
   lookup:
     pkg:
       name: {= cookiecutter.pkg =}
+{!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
         - stable
+{!- endif !}
     rootgroup: root
-    config:
-      default_confdir: '{= cookiecutter.default_confdir =}'
-      default_conffile: 'config'
-      default_xdg_conffile: 'config'
-    subcomponent:
-      config: '{= cookiecutter.default_confdir =}/subcomponent'
+    paths:
+      confdir: '{= cookiecutter.default_confdir =}'
+      conffile: '{= cookiecutter.default_conffile =}'
+{!- if 'y' == cookiecutter.needs_xdg_help !}
+      xdg_dirname: '{= cookiecutter.xdg_dirname =}'
+      xdg_conffile: '{= cookiecutter.xdg_conffile =}'
+{!- endif !}
 
 ######################################################################
 # This is where `tool` suite settings end and Salt behavior settings

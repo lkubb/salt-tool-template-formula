@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
+tool_global:
+  users:
+    user:
+      configsync: true
+      persistenv: .bash_profile
+      rchook: .bashrc
+      xdg: true
+{!- if cookiecutter._usersettings !}
+      {= cookiecutter.abbr_pysafe =}:
+        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
+{!- endif !}
 tool_{= cookiecutter.abbr_pysafe =}:
   lookup:
     master: template-master
@@ -8,11 +19,26 @@ tool_{= cookiecutter.abbr_pysafe =}:
     winner: lookup
     added_in_lookup: lookup_value
 
-  pkg:
-    name: {= cookiecutter.pkg =}
-  service:
-    name: {= cookiecutter.pkg =}
-  config: /home/user/.config/{= cookiecutter.abbr =}/config
+    pkg:
+      name: {= cookiecutter.pkg =}
+{!- if 'y' == cookiecutter.needs_repo !}
+      enable_repo:
+        - stable
+{!- endif !}
+    paths:
+      confdir: '{= cookiecutter.default_confdir =}'
+      conffile: '{= cookiecutter.default_conffile =}'
+{!- if 'y' == cookiecutter.needs_xdg_help !}
+      xdg_dirname: '{= cookiecutter.xdg_dirname =}'
+      xdg_conffile: '{= cookiecutter.xdg_conffile =}'
+{!- endif !}
+{!- if 'y' == cookiecutter.has_service !}
+    service:
+      name: {= cookiecutter.pkg =}
+{!- endif !}
+{!- if cookiecutter._settings !}
+  {= cookiecutter._settings | yaml(False) | indent(2) =}
+{!- endif !}
 
   tofs:
     # The files_switch key serves as a selector for alternative
@@ -43,11 +69,11 @@ tool_{= cookiecutter.abbr_pysafe =}:
     #     - 'example_alt.tmpl.jinja'
 
     # For testing purposes
+{!- if 'y' == cookiecutter.has_config_template !}
     source_files:
-      tool-{= cookiecutter.abbr =}-config-file-file-managed:
-        - 'example.tmpl.jinja'
-      tool-{= cookiecutter.abbr =}-subcomponent-config-file-file-managed:
-        - 'subcomponent-example.tmpl.jinja'
+      {= cookiecutter.name =} config file is managed for user 'user':
+      - example.tmpl.jinja
+{!- endif !}
 
   # Just for testing purposes
   winner: pillar

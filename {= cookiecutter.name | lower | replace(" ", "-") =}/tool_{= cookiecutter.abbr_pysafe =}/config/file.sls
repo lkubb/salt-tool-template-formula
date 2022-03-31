@@ -10,19 +10,20 @@
 include:
   - {{ sls_package_install }}
 
+
 {%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('config', 'defined') | selectattr('config') %}
 
 {= cookiecutter.name =} config file is managed for user '{{ user.name }}':
   file.managed:
-    - name: {{ user['_' ~ tplroot[5:]].confdir | path_join(tplroot[5:], user['_' ~ tplroot[5:]].conffile) }}
-    - source: {{ files_switch([user['_' ~ tplroot[5:]].conffile],
+    - name: {{ user['_{= cookiecutter.abbr_pysafe =}'].conffile }}
+    - source: {{ files_switch([{= cookiecutter.abbr_pysafe =}.lookup.paths.conffile],
                               lookup='{= cookiecutter.name =} config file is managed for user \'{{ user.name }}\''
                  )
               }}
     - mode: '0600'
     - user: {{ user.name }}
     - group: {{ user.group }}
-    - makedirs: True
+    - makedirs: true
     - dir_mode: '0700'
     - template: jinja
     - require:
