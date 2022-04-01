@@ -117,6 +117,9 @@ tool_{= cookiecutter.abbr_pysafe =}:
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
+{!- if cookiecutter._lookup !}
+    {= cookiecutter._lookup | yaml(False) | indent(4) =}
+{!- endif !}
 
 ######################################################################
 # This is where `tool` suite settings end and Salt behavior settings

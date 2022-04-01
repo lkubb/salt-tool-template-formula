@@ -29,6 +29,7 @@
     "has_config_template": "n",
     "has_tests": "y",
     "git_username": "none",
+    "_lookup": {},
     "_settings": {},
     "_usersettings": {
         "someconf": "someval"

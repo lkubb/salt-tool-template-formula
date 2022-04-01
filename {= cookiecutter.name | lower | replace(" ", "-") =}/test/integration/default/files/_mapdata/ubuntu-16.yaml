@@ -43,6 +43,9 @@ values:
     service:
       name: {= cookiecutter.pkg =}
 {!- endif !}
+{!- if cookiecutter._lookup !}
+    {= cookiecutter._lookup | yaml(False) | indent(4) =}
+{!- endif !}
   map_jinja:
     sources:
     - "Y:G@osarch"

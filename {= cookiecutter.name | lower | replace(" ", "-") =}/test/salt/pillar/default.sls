@@ -36,6 +36,9 @@ tool_{= cookiecutter.abbr_pysafe =}:
     service:
       name: {= cookiecutter.pkg =}
 {!- endif !}
+{!- if cookiecutter._lookup !}
+    {= cookiecutter._lookup | yaml(False) | indent(4) =}
+{!- endif !}
 {!- if cookiecutter._settings !}
   {= cookiecutter._settings | yaml(False) | indent(2) =}
 {!- endif !}
