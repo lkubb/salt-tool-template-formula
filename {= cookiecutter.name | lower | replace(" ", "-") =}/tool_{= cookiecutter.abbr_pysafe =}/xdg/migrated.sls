@@ -40,8 +40,8 @@ Existing {= cookiecutter.name =} configuration is migrated for user '{{ user.nam
     - name: {{ user_xdg_conffile }}
     - user: {{ user.name }}
     - group: {{ user.group }}
-    - replace: False
-    - makedirs: True
+    - replace: false
+    - makedirs: true
     - mode: '0600'
     - dir_mode: '0700'
     - require:

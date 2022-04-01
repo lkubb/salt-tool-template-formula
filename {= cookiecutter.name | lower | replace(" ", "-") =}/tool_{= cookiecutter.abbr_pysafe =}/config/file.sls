@@ -11,7 +11,7 @@ include:
   - {{ sls_package_install }}
 
 
-{%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('config', 'defined') | selectattr('config') %}
+{%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('{= cookiecutter.abbr_pysafe =}.config', 'defined') | selectattr('{= cookiecutter.abbr_pysafe =}.config') %}
 
 {= cookiecutter.name =} config file is managed for user '{{ user.name }}':
   file.managed:
