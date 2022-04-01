@@ -66,11 +66,13 @@ tool_{= cookiecutter.abbr_pysafe =}:
     #     - 'example_alt.tmpl'
     #     - 'example_alt.tmpl.jinja'
 
-    # For testing purposes
 {!- if 'y' == cookiecutter.has_config_template !}
+
+    # For testing purposes
     source_files:
       {= cookiecutter.name =} config file is managed for user 'user':
-      - example.tmpl.jinja
+        - '{= cookiecutter.xdg_conffile =}'
+        - '{= cookiecutter.xdg_conffile =}.jinja'
 {!- endif !}
 
   # Just for testing purposes

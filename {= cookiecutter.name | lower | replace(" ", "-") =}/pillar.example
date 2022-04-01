@@ -138,6 +138,7 @@ tool_{= cookiecutter.abbr_pysafe =}:
       - os
       - os_family
 
+{!- if 'y' == cookiecutter.has_config_template !}
     # All aspects of path/file resolution are customisable using the options below.
     # This is unnecessary in most cases; there are sensible defaults.
     # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >
@@ -150,5 +151,6 @@ tool_{= cookiecutter.abbr_pysafe =}:
     # given for the state
     source_files:
       {= cookiecutter.name =} config file is managed for user 'user':
-        - 'example_alt.tmpl'
-        - 'example_alt.tmpl.jinja'
+        - '{= cookiecutter.xdg_conffile =}'
+        - '{= cookiecutter.xdg_conffile =}.jinja'
+{!- endif !}
