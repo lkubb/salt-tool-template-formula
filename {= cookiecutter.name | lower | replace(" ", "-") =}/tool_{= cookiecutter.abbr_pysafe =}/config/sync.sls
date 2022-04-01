@@ -14,7 +14,7 @@
   file.recurse:
     - name: {{ user['_{= cookiecutter.abbr_pysafe =}'].confdir }}
     - source: {{ files_switch(
-                ['user/' ~ user.name ~ '/{= cookiecutter.xdg_dirname =}')],
+                ['user/' ~ user.name ~ '/{= cookiecutter.xdg_dirname =}'],
                 default_files_switch=['id', 'os', 'os_family'],
                 override_root='dotconfig') }}
               {{ files_switch(
