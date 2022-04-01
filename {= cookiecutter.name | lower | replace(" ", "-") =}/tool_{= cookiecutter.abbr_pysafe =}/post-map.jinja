@@ -19,7 +19,7 @@
 {%- endfor -%}
 
 {#- update all users' configurations for this formula with the formula defaults -#}
-{%- do salt['defaults.update'](users, {'{= cookiecutter.abbr_pysafe =}': mapdata | traverse(tplroot ~ ':defaults', {})}) -%}
+{%- do salt['defaults.update'](users, {'{= cookiecutter.abbr_pysafe =}': mapdata.get('defaults', {})}) -%}
 
 {#- embed user information that will be reused (home, primary group, shell, paths) -#}
 {%- for user in users.keys() -%}
