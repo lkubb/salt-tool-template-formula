@@ -101,7 +101,7 @@ Formula-specific
       {= cookiecutter._usersettings | first =}: default value for all users
 {!- endif !}
 
-{!- if cookiecutter.has_config_template !}
+{!- if 'y' == cookiecutter.has_config_template !}
 
 Config file serialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~
