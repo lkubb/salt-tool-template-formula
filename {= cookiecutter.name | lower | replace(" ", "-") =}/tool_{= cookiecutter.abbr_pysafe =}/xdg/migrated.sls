@@ -49,6 +49,10 @@ Existing {= cookiecutter.name =} configuration is migrated for user '{{ user.nam
     - require_in:
       - {= cookiecutter.name =} setup is completed
 
+# @FIXME
+# This actually does not make sense and might be harmful:
+# Each file is executed for all users, thus this breaks
+# when more than one is defined!
 {= cookiecutter.name =} uses XDG dirs during this salt run:
   environ.setenv:
     - value:
@@ -72,9 +76,8 @@ persistenv file for {= cookiecutter.name =} exists for user '{{ user.name }}':
   file.append:
     - name: {{ user.home | path_join(user.persistenv) }}
     - text: export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/{{ {= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_conffile) }}"
-    - user: {{ user.name }}
-    - group: {{ user.group }}
-    - mode: '0600'
+    - require:
+      - persistenv file for {= cookiecutter.name =} exists for user '{{ user.name }}'
     - require_in:
       - {= cookiecutter.name =} setup is completed
   {%- endif %}
