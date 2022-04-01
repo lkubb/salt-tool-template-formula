@@ -70,11 +70,11 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
 
 {!- if cookiecutter._usersettings !}
 
-        # This user's configuration for this formula. Will be overridden by
-        # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
-        # Set this to `false` to disable configuration for this user.
-      {= cookiecutter.abbr_pysafe =}:
-        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
+      # This user's configuration for this formula. Will be overridden by
+      # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
+      # Set this to `false` to disable configuration for this user.
+    {= cookiecutter.abbr_pysafe =}:
+      {= cookiecutter._usersettings | yaml(False) | indent(6) =}
 {!- endif !}
 
 Formula-specific
