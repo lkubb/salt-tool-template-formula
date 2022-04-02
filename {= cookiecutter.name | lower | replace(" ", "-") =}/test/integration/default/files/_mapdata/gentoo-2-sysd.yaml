@@ -13,7 +13,7 @@ values:
       xdg: true
 {!- if cookiecutter._usersettings !}
       {= cookiecutter.abbr_pysafe =}:
-        {= cookiecutter._usersettings | yaml(False) | indent(6) =}
+        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
 {!- endif !}
   added_in_defaults: defaults_value
   added_in_lookup: lookup_value

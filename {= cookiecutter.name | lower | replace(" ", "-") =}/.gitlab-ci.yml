@@ -47,7 +47,6 @@ stages:
   - *stage_test
 {!- endif !}
   - *stage_release
-}
 variables:
   DOCKER_DRIVER: 'overlay2'
 
