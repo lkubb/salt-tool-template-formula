@@ -60,7 +60,7 @@ Existing {= cookiecutter.name =} configuration is migrated for user '{{ user.nam
     - require_in:
       - {= cookiecutter.name =} setup is completed
 
-  {%- if user.get('persistenv') %}
+{%-   if user.get('persistenv') %}
 
 persistenv file for {= cookiecutter.name =} exists for user '{{ user.name }}':
   file.managed:
@@ -80,5 +80,5 @@ persistenv file for {= cookiecutter.name =} exists for user '{{ user.name }}':
       - persistenv file for {= cookiecutter.name =} exists for user '{{ user.name }}'
     - require_in:
       - {= cookiecutter.name =} setup is completed
-  {%- endif %}
+{%-   endif %}
 {%- endfor %}

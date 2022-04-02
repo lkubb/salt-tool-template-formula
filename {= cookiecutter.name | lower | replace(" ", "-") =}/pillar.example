@@ -142,6 +142,7 @@ tool_{= cookiecutter.abbr_pysafe =}:
       - os_family
 
 {!- if 'y' == cookiecutter.has_config_template !}
+
     # All aspects of path/file resolution are customisable using the options below.
     # This is unnecessary in most cases; there are sensible defaults.
     # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >

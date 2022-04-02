@@ -25,4 +25,3 @@ include:
       - sls: {{ sls_service_clean }}
 {!- endif !}
 {%- endfor %}
-
