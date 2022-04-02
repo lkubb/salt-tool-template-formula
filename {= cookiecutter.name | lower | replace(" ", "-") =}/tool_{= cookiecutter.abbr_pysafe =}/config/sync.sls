@@ -14,13 +14,10 @@
   file.recurse:
     - name: {{ user['_{= cookiecutter.abbr_pysafe =}'].confdir }}
     - source: {{ files_switch(
-                ['user/' ~ user.name ~ '/{= cookiecutter.xdg_dirname =}'],
-                default_files_switch=['id', 'os', 'os_family'],
-                override_root='dotconfig') }}
-              {{ files_switch(
                 ['{= cookiecutter.xdg_dirname =}'],
-                default_files_switch=['id', 'os', 'os_family'],
-                override_root='dotconfig') }}
+                default_files_switch=['id', 'os_family'],
+                override_root='dotconfig',
+                opt_prefixes=[user.name]) }}
     - context:
         user: {{ user | json }}
     - template: jinja

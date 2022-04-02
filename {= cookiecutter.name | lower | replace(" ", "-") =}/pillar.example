@@ -33,16 +33,12 @@ tool_global:
         # The available paths and their priority can be found in the
         # rendered `configsync.sls` file (currently, @TODO docs).
         # Overview in descending priority:
-        # salt://dotconfig/id/<minion_id>/user/<user>/{= cookiecutter.abbr =}
-        # salt://dotconfig/os/Fedora/user/<user>/{= cookiecutter.abbr =}
-        # salt://dotconfig/os_family/Debian/user/<user>/{= cookiecutter.abbr =}
-        # salt://dotconfig/default/user/<user>/{= cookiecutter.abbr =}
-        # salt://dotconfig/id/<minion_id>/{= cookiecutter.abbr =}
-        # salt://dotconfig/os/Fedora/{= cookiecutter.abbr =}
-        # salt://dotconfig/os_family/Debian/{= cookiecutter.abbr =}
-        # salt://dotconfig/default/{= cookiecutter.abbr =}
-        # This means once any source for a specific user was found, it will
-        # override even minion-specific non-user-specific sources.
+        # salt://dotconfig/<minion_id>/<user>/{= cookiecutter.xdg_dirname =}
+        # salt://dotconfig/<minion_id>/{= cookiecutter.xdg_dirname =}
+        # salt://dotconfig/<os_family>/<user>/{= cookiecutter.xdg_dirname =}
+        # salt://dotconfig/<os_family>/{= cookiecutter.xdg_dirname =}
+        # salt://dotconfig/default/<user>/{= cookiecutter.xdg_dirname =}
+        # salt://dotconfig/default/{= cookiecutter.xdg_dirname =}
       dotconfig:              # can be bool or mapping
         file_mode: '0600'     # default: keep destination or salt umask (new)
         dir_mode: '0700'      # default: 0700

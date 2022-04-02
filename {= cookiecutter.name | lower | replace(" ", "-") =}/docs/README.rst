@@ -44,16 +44,12 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
       # The available paths and their priority can be found in the
       # rendered `configsync.sls` file (currently, @TODO docs).
       # Overview in descending priority:
-      # salt://dotconfig/id/<minion_id>/user/<user>/{= cookiecutter.abbr =}
-      # salt://dotconfig/os/Fedora/user/<user>/{= cookiecutter.abbr =}
-      # salt://dotconfig/os_family/Debian/user/<user>/{= cookiecutter.abbr =}
-      # salt://dotconfig/default/user/<user>/{= cookiecutter.abbr =}
-      # salt://dotconfig/id/<minion_id>/{= cookiecutter.abbr =}
-      # salt://dotconfig/os/Fedora/{= cookiecutter.abbr =}
-      # salt://dotconfig/os_family/Debian/{= cookiecutter.abbr =}
-      # salt://dotconfig/default/{= cookiecutter.abbr =}
-      # This means once any source for a specific user was found, it will
-      # override even minion-specific non-user-specific sources.
+      # salt://dotconfig/<minion_id>/<user>/{= cookiecutter.xdg_dirname =}
+      # salt://dotconfig/<minion_id>/{= cookiecutter.xdg_dirname =}
+      # salt://dotconfig/<os_family>/<user>/{= cookiecutter.xdg_dirname =}
+      # salt://dotconfig/<os_family>/{= cookiecutter.xdg_dirname =}
+      # salt://dotconfig/default/<user>/{= cookiecutter.xdg_dirname =}
+      # salt://dotconfig/default/{= cookiecutter.xdg_dirname =}
     dotconfig:              # can be bool or mapping
       file_mode: '0600'     # default: keep destination or salt umask (new)
       dir_mode: '0700'      # default: 0700
@@ -112,20 +108,18 @@ This formula serializes configuration into a config file. A default one is provi
 
 Dotfiles
 ~~~~~~~~
-`tool_{= cookiecutter.abbr_pysafe =}.configsync` will recursively apply templates from
+``tool_{= cookiecutter.abbr_pysafe =}.config.sync`` will recursively apply templates from
 
-* ``salt://dotconfig/id/<minion_id>/user/<user>/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/os/Fedora/user/<user>/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/os_family/Debian/user/<user>/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/default/user/<user>/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/id/<minion_id>/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/os/Fedora/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/os_family/Debian/{= cookiecutter.abbr =}``
-* ``salt://dotconfig/default/{= cookiecutter.abbr =}``
+* ``salt://dotconfig/<minion_id>/<user>/{= cookiecutter.xdg_dirname =}``
+* ``salt://dotconfig/<minion_id>/{= cookiecutter.xdg_dirname =}``
+* ``salt://dotconfig/<os_family>/<user>/{= cookiecutter.xdg_dirname =}``
+* ``salt://dotconfig/<os_family>/{= cookiecutter.xdg_dirname =}``
+* ``salt://dotconfig/default/<user>/{= cookiecutter.xdg_dirname =}``
+* ``salt://dotconfig/default/{= cookiecutter.xdg_dirname =}``
 
 to the user's config dir for every user that has it enabled (see ``user.dotconfig``). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
 
-The URL list above is in descending priority. This means once any source for a specific user was found, it will currently override even minion-specific non-user-specific sources.
+The URL list above is in descending priority. This means user-specific configuration from wider scopes will be overridden by more system-specific general configuration.
 {!- endif !}
 
 Development
