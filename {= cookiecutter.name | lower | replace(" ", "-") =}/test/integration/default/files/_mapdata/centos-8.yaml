@@ -2,20 +2,18 @@
 # CentOS Linux-8
 ---
 values:
-  tool_global:
-    users:
-      user:
-        configsync: true
-        persistenv: .bash_profile
-        rchook: .bashrc
-        xdg: true
-{!- if cookiecutter._usersettings !}
-        {= cookiecutter.abbr_pysafe =}:
-          {= cookiecutter._usersettings | yaml(False) | indent(8) =}
-{!- endif !}
-  tool_{= cookiecutter.abbr_pysafe =}:
 {!- if cookiecutter._settings !}
-    {= cookiecutter._settings | yaml(False) | indent(4) =}
+  {= cookiecutter._settings | yaml(False) | indent(2) =}
+{!- endif !}
+  users:
+    user:
+      configsync: true
+      persistenv: .bash_profile
+      rchook: .bashrc
+      xdg: true
+{!- if cookiecutter._usersettings !}
+      {= cookiecutter.abbr_pysafe =}:
+        {= cookiecutter._usersettings | yaml(False) | indent(6) =}
 {!- endif !}
   added_in_defaults: defaults_value
   added_in_lookup: lookup_value
@@ -67,6 +65,7 @@ values:
 {!- if 'y' == cookiecutter.has_config_template !}
     source_files:
       {= cookiecutter.name =} config file is managed for user 'user':
-      - example.tmpl.jinja
+      - {= cookiecutter.xdg_conffile =}
+      - {= cookiecutter.xdg_conffile =}.jinja
 {!- endif !}
   winner: pillar
