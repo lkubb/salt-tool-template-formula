@@ -42,7 +42,7 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
 
       # Sync this user's config from a dotfiles repo.
       # The available paths and their priority can be found in the
-      # rendered `configsync.sls` file (currently, @TODO docs).
+      # rendered `config/sync.sls` file (currently, @TODO docs).
       # Overview in descending priority:
       # salt://dotconfig/<minion_id>/<user>/{= cookiecutter.xdg_dirname =}
       # salt://dotconfig/<minion_id>/{= cookiecutter.xdg_dirname =}
