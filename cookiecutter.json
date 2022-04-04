@@ -23,7 +23,7 @@
     "default_confdir": "{% if 'n' == cookiecutter.has_conffile_only %}{{ '.config/' ~ cookiecutter.pkg if cookiecutter.has_xdg == 'y' and cookiecutter.needs_xdg_help != 'y' else '.' ~  cookiecutter.pkg }}{% endif %}",
     "default_confdir_mac": "{% if 'n' == cookiecutter.has_conffile_only %}{{ 'Library/Application Support/' ~ cookiecutter.name if cookiecutter.mac_library == 'y' else cookiecutter.default_confdir }}{% endif %}",
     "default_conffile": "{% if 'n' == cookiecutter.has_conffile_only or 'y' != cookiecutter.needs_xdg_help %}config{% else %}.{{ cookiecutter.pkg }}{% endif %}",
-    "xdg_dirname": "{% if cookiecutter.has_xdg == 'y' %}{{ cookiecutter.pkg if 'y' == cookiecutter.needs_xdg_help else cookiecutter.default_confdir }}{% endif %}",
+    "xdg_dirname": "{% if cookiecutter.has_xdg == 'y' %}{{ cookiecutter.pkg if 'y' == cookiecutter.needs_xdg_help else cookiecutter.default_confdir[8:] }}{% endif %}",
     "xdg_conffile": "{% if cookiecutter.has_xdg == 'y' %}{{ cookiecutter.default_conffile[cookiecutter.default_conffile.startswith('.') | int:] }}{% endif %}",
     "has_configsync": "y",
     "has_config_template": "n",
