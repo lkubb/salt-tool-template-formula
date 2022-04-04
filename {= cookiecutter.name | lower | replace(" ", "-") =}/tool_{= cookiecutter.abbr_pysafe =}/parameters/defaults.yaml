@@ -14,7 +14,7 @@ values:
     paths:
       confdir: '{= cookiecutter.default_confdir =}'
       conffile: '{= cookiecutter.default_conffile =}'
-{!- if 'y' == cookiecutter.needs_xdg_help !}
+{!- if 'y' == cookiecutter.needs_xdg_help or 'y' == cookiecutter.has_xdg !}
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
