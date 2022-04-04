@@ -32,8 +32,10 @@ home: {{ user_info.home }}
 shell: {{ user_info.shell.split('/')[-1] }}
   {%- endload -%}
   {%- do users[user].update(salt['defaults.merge'](user_info, users[user], in_place=False)) -%}
-{!- if 'y' == cookiecutter.has_xdg !}
+{!- if 'y' == cookiecutter.needs_xdg_help !}
   {%- if users[user].xdg | default('True') -%}
+{!- endif !}
+{!- if 'y' == cookiecutter.has_xdg !}
     {#- cannot use environ.get because it only has access to current env, not a specific user's -#}
     {%- load_yaml as xdg -%}
 cache: {{ salt['cmd.run']('[ -n "$XDG_CACHE_HOME" ] && echo "${XDG_CACHE_HOME}" || echo "${HOME}/.cache"', runas=user) }}
@@ -46,13 +48,17 @@ state: {{ salt['cmd.run']('[ -n "$XDG_STATE_HOME" ] && echo "${XDG_STATE_HOME}" 
         'confdir': xdg.config | path_join(mapdata.lookup.paths.xdg_dirname),
         'conffile': xdg.config | path_join(mapdata.lookup.paths.xdg_dirname, mapdata.lookup.paths.xdg_conffile)})
     -%}
+{!- endif !}
+{!- if 'y' == cookiecutter.needs_xdg_help !}
   {%- else -%}
 {!- endif !}
+{!- if 'y' == cookiecutter.needs_xdg_help or 'y' != cookiecutter.has_xdg !}
     {%- do users[user]['_{= cookiecutter.abbr_pysafe =}'].update({
         'confdir': users[user].home | path_join(mapdata.lookup.paths.confdir),
         'conffile': users[user].home | path_join(mapdata.lookup.paths.confdir, mapdata.lookup.paths.conffile)})
     -%}
-{!- if 'y' == cookiecutter.has_xdg !}
+{!- endif !}
+{!- if 'y' == cookiecutter.needs_xdg_help !}
   {%- endif -%}
 {!- endif !}
 {%- endfor -%}
