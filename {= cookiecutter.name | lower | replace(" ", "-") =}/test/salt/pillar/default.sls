@@ -76,8 +76,8 @@ tool_{= cookiecutter.abbr_pysafe =}:
     # For testing purposes
     source_files:
       {= cookiecutter.name =} config file is managed for user 'user':
-        - '{= cookiecutter.xdg_conffile =}'
-        - '{= cookiecutter.xdg_conffile =}.jinja'
+        - '{= cookiecutter.xdg_conffile or cookiecutter.default_conffile =}'
+        - '{= cookiecutter.xdg_conffile or cookiecutter.default_conffile =}.jinja'
 {!- endif !}
 
   # Just for testing purposes

@@ -65,7 +65,7 @@ values:
 {!- if 'y' == cookiecutter.has_config_template !}
     source_files:
       {= cookiecutter.name =} config file is managed for user 'user':
-      - {= cookiecutter.xdg_conffile =}
-      - {= cookiecutter.xdg_conffile =}.jinja
+      - {= cookiecutter.xdg_conffile or cookiecutter.default_conffile =}
+      - {= cookiecutter.xdg_conffile or cookiecutter.default_conffile =}.jinja
 {!- endif !}
   winner: pillar
