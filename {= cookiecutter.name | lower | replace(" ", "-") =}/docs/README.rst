@@ -94,7 +94,7 @@ Formula-specific
     {= cookiecutter._settings | yaml(False) | indent(4) =}
 {!- endif !}
 
-{!- if cookiecutter._usersettings | first !}
+{!- if cookiecutter._usersettings !}
 
       # Default formula configuration for all users.
     defaults:
