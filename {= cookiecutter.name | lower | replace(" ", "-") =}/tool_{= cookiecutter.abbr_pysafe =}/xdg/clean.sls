@@ -9,8 +9,8 @@
 {%- for user in {= cookiecutter.abbr_pysafe =}.users | rejectattr('xdg', 'sameas', False) %}
 
 {%-   set user_default_conf = user.home | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.confdir{! if 'y' == cookiecutter.has_conffile_only !}, {= cookiecutter.abbr_pysafe =}.lookup.paths.conffile{! endif !}) %}
-{%-   set user_xdg_confdir = user.xdg.config | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname %}
-{%-   set user_xdg_conffile = user_xdg_confdir | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_conffile %}
+{%-   set user_xdg_confdir = user.xdg.config | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname) %}
+{%-   set user_xdg_conffile = user_xdg_confdir | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_conffile) %}
 
 {= cookiecutter.name =} configuration is cluttering $HOME for user '{{ user.name }}':
   file.rename:
@@ -34,7 +34,8 @@
 {= cookiecutter.name =} is ignorant about XDG location for user '{{ user.name }}':
   file.replace:
     - name: {{ user.home | path_join(user.persistenv) }}
-    - text: ^{{ 'export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/' ~ {= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_conffile) ~ '"' | regex_escape }}$
+    - text: ^{{ 'export CONF="${XDG_CONFIG_HOME:-$HOME/.config}/' ~ {= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname |
+                path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_conffile) ~ '"' | regex_escape }}$
     - repl: ''
     - ignore_if_missing: true
 {%-   endif %}
