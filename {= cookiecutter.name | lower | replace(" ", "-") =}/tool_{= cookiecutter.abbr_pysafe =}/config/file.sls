@@ -17,8 +17,8 @@ include:
   file.managed:
     - name: {{ user['_{= cookiecutter.abbr_pysafe =}'].conffile }}
     - source: {{ files_switch([{= cookiecutter.abbr_pysafe =}.lookup.paths.conffile],
-                              lookup='{= cookiecutter.name =} config file is managed for user \'{{ user.name }}\''
-                 )
+                              lookup='{= cookiecutter.name =} config file is managed for user \'{{ user.name }}\'',
+                              opt_prefixes=[user.name])
               }}
     - mode: '0600'
     - user: {{ user.name }}
