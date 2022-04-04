@@ -36,8 +36,12 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
 .. code-block:: yaml
 
   user:
-      # Force the usage of XDG directories for this user.
-    xdg: true
+{!- if 'y' == cookiecutter.has_xdg !}
+
+        # Force the usage of XDG directories for this user.
+      xdg: true
+{!- endif !}
+
 {!- if 'y' == cookiecutter.has_configsync !}
 
       # Sync this user's config from a dotfiles repo.

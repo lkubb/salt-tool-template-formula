@@ -25,8 +25,12 @@ tool_global:
       # The following is global configuration for the user named `user`.
     user:
 
+{!- if 'y' == cookiecutter.has_xdg !}
+
         # Force the usage of XDG directories for this user.
       xdg: true
+{!- endif !}
+
 {!- if 'y' == cookiecutter.has_configsync !}
 
         # Sync this user's config from a dotfiles repo.
