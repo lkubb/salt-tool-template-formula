@@ -32,6 +32,12 @@ def is_installed(name, user=None):
     """
     Checks whether a package with this name is installed by {= cookiecutter.abbr =}.
 
+    CLI Example:
+
+    .. code-block:: bash
+
+        salt '*' {= cookiecutter.abbr =}.is_installed example user=user
+
     name
         The name of the package to check.
 
@@ -45,6 +51,12 @@ def is_installed(name, user=None):
 def install(name, user=None):
     """
     Installs package with {= cookiecutter.abbr =}.
+
+    CLI Example:
+
+    .. code-block:: bash
+
+        salt '*' {= cookiecutter.abbr =}.install example user=user
 
     name
         The name of the package to install.
@@ -62,6 +74,12 @@ def remove(name, user=None):
     """
     Removes package from {= cookiecutter.abbr =}.
 
+    CLI Example:
+
+    .. code-block:: bash
+
+        salt '*' {= cookiecutter.abbr =}.remove example user=user
+
     name
         The name of the package to remove.
 
@@ -77,6 +95,12 @@ def remove(name, user=None):
 def upgrade(name, user=None):
     """
     Upgrades package installed with {= cookiecutter.abbr =}.
+
+    CLI Example:
+
+    .. code-block:: bash
+
+        salt '*' {= cookiecutter.abbr =}.upgrade example user=user
 
     name
         The name of the package to upgrade.

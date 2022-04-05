@@ -22,12 +22,6 @@ def installed(name, user=None):
     """
     Make sure program is installed with {= cookiecutter.abbr =}.
 
-    CLI Example:
-
-    .. code-block:: bash
-
-        salt '*' {= cookiecutter.abbr =}.installed example user=user
-
     name
         The name of the program to install, if not installed already.
 
@@ -66,12 +60,6 @@ def installed(name, user=None):
 def latest(name, user=None):
     """
     Make sure program is installed with {= cookiecutter.abbr =} and is up to date.
-
-    CLI Example:
-
-    .. code-block:: bash
-
-        salt '*' {= cookiecutter.abbr =}.latest example user=user
 
     name
         The name of the program to upgrade or install.
@@ -128,12 +116,6 @@ def latest(name, user=None):
 def absent(name, user=None):
     """
     Make sure {= cookiecutter.abbr =} installation of program is removed.
-
-    CLI Example:
-
-    .. code-block:: bash
-
-        salt '*' {= cookiecutter.abbr =}.absent example user=user
 
     name
         The name of the program to remove, if installed.
