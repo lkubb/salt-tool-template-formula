@@ -15,17 +15,16 @@ def __virtual__():
 
 
 def _which(user=None):
-    if e := __salt__["cmd.run_stdout"]("command -v test", runas=user):
+    e = __salt__["cmd.run_stdout"]("command -v {= cookiecutter.abbr =}", runas=user)
+    # if e := __salt__["cmd.run_stdout"]("command -v {= cookiecutter.abbr =}", runas=user):
+    if e:
         return e
     if salt.utils.platform.is_darwin():
-        if p := __salt__["cmd.run_stdout"]("brew --prefix test", runas=user):
+        p = __salt__["cmd.run_stdout"]("brew --prefix {= cookiecutter.abbr =}", runas=user)
+        # if p := __salt__["cmd.run_stdout"]("brew --prefix {= cookiecutter.abbr =}", runas=user):
+        if p:
             return p
-        for f in ["/opt/homebrew/bin", "/usr/local/bin"]:
-            if p := salt["cmd.run_stdout"](
-                "test -s {}/test && echo {}/test".format(f, f), runas=user
-            ):
-                return p
-    raise CommandExecutionError("Could not find test executable.")
+    raise CommandExecutionError("Could not find {= cookiecutter.abbr =} executable.")
 
 
 def is_installed(name, user=None):
@@ -45,6 +44,7 @@ def is_installed(name, user=None):
         The username to check for. Defaults to salt user.
 
     """
+
     return name in _list_installed(user)
 
 
@@ -65,6 +65,7 @@ def install(name, user=None):
         The username to install the package for. Defaults to salt user.
 
     """
+
     e = _which(user)
 
     return not __salt__["cmd.retcode"]("{} install '{}'".format(e, name), runas=user)
@@ -87,6 +88,7 @@ def remove(name, user=None):
         The username to remove the package for. Defaults to salt user.
 
     """
+
     e = _which(user)
 
     return not __salt__["cmd.retcode"]("{} uninstall '{}'".format(e, name), runas=user)
@@ -109,6 +111,7 @@ def upgrade(name, user=None):
         The username to upgrade the package for. Defaults to salt user.
 
     """
+
     e = _which(user)
 
     return not __salt__["cmd.retcode"]("{} upgrade '{}'".format(e, name), runas=user)

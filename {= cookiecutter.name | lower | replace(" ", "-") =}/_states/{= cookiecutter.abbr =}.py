@@ -29,11 +29,12 @@ def installed(name, user=None):
         The username to install the program for. Defaults to salt user.
 
     """
+
     ret = {"name": name, "result": True, "comment": "", "changes": {}}
 
     try:
-        if __salt__["test.is_installed"](name, user):
-            ret["comment"] = "Program is already installed with test."
+        if __salt__["{= cookiecutter.abbr =}.is_installed"](name, user):
+            ret["comment"] = "Program is already installed with {= cookiecutter.abbr =}."
         elif __opts__["test"]:
             ret["result"] = None
             ret[
@@ -42,14 +43,14 @@ def installed(name, user=None):
                 name, user
             )
             ret["changes"] = {"installed": name}
-        elif __salt__["test.install"](name, user):
+        elif __salt__["{= cookiecutter.abbr =}.install"](name, user):
             ret["comment"] = "Program '{}' was installed for user '{}'.".format(
                 name, user
             )
             ret["changes"] = {"installed": name}
         else:
             ret["result"] = False
-            ret["comment"] = "Something went wrong while calling test."
+            ret["comment"] = "Something went wrong while calling {= cookiecutter.abbr =}."
     except salt.exceptions.CommandExecutionError as e:
         ret["result"] = False
         ret["comment"] = str(e)
@@ -68,10 +69,11 @@ def latest(name, user=None):
         The username to install the program for. Defaults to salt user.
 
     """
+
     ret = {"name": name, "result": True, "comment": "", "changes": {}}
 
     try:
-        if __salt__["test.is_installed"](name, user):
+        if __salt__["{= cookiecutter.abbr =}.is_installed"](name, user):
             if __opts__["test"]:
                 ret["result"] = None
                 ret[
@@ -80,14 +82,14 @@ def latest(name, user=None):
                     name, user
                 )
                 ret["changes"] = {"installed": name}
-            elif __salt__["test.upgrade"](name, user):
+            elif __salt__["{= cookiecutter.abbr =}.upgrade"](name, user):
                 ret["comment"] = "Program '{}' was upgraded for user '{}'.".format(
                     name, user
                 )
                 ret["changes"] = {"upgraded": name}
             else:
                 ret["result"] = False
-                ret["comment"] = "Something went wrong while calling mas."
+                ret["comment"] = "Something went wrong while calling {= cookiecutter.abbr =}."
         elif __opts__["test"]:
             ret["result"] = None
             ret[
@@ -96,14 +98,14 @@ def latest(name, user=None):
                 name, user
             )
             ret["changes"] = {"installed": name}
-        elif __salt__["test.install"](name, user):
+        elif __salt__["{= cookiecutter.abbr =}.install"](name, user):
             ret["comment"] = "Program '{}' was installed for user '{}'.".format(
                 name, user
             )
             ret["changes"] = {"installed": name}
         else:
             ret["result"] = False
-            ret["comment"] = "Something went wrong while calling test."
+            ret["comment"] = "Something went wrong while calling {= cookiecutter.abbr =}."
         return ret
 
     except salt.exceptions.CommandExecutionError as e:
@@ -124,25 +126,26 @@ def absent(name, user=None):
         The username to remove the program for. Defaults to salt user.
 
     """
+
     ret = {"name": name, "result": True, "comment": "", "changes": {}}
 
     try:
-        if not __salt__["test.is_installed"](name, user):
-            ret["comment"] = "Program is already absent from test."
+        if not __salt__["{= cookiecutter.abbr =}.is_installed"](name, user):
+            ret["comment"] = "Program is already absent from {= cookiecutter.abbr =}."
         elif __opts__["test"]:
             ret["result"] = None
             ret[
                 "comment"
             ] = "Program '{}' would have been removed for user '{}'.".format(name, user)
             ret["changes"] = {"installed": name}
-        elif __salt__["test.remove"](name, user):
+        elif __salt__["{= cookiecutter.abbr =}.remove"](name, user):
             ret["comment"] = "Program '{}' was removed for user '{}'.".format(
                 name, user
             )
             ret["changes"] = {"installed": name}
         else:
             ret["result"] = False
-            ret["comment"] = "Something went wrong while calling test."
+            ret["comment"] = "Something went wrong while calling {= cookiecutter.abbr =}."
     except salt.exceptions.CommandExecutionError as e:
         ret["result"] = False
         ret["comment"] = str(e)
