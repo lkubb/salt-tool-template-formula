@@ -119,12 +119,13 @@ def upgrade(name, user=None):
 
 def _list_installed(user=None):
     e = _which(user)
-    out = json.loads(
-        __salt__["cmd.run_stdout"]("{} list".format(e), runas=user, raise_err=True)
-    )
-    if out:
-        return _parse(out)
-    raise CommandExecutionError("Something went wrong while calling test.")
+    try:
+        out = json.loads(
+            __salt__["cmd.run_stdout"]("{} list".format(e), runas=user, raise_err=True)
+        )
+    except json.JSONDecodeError as e:
+        raise CommandExecutionError(str(e))
+    return _parse(out)
 
 
 def _parse(installed):
