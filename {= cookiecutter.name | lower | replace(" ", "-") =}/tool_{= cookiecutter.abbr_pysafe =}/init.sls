@@ -12,3 +12,6 @@ include:
 {!- if 'y' == cookiecutter.has_service !}
   - .service
 {!- endif !}
+{!- if 'n' != cookiecutter.has_completions !}
+  - .completions
+{!- endif !}

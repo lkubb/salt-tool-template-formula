@@ -17,6 +17,7 @@ QUESTION_PATH_RM = [
     ('{{ cookiecutter.has_config_template }}', [tool_root + '/config/file.sls']),
     ('{{ "n" if cookiecutter.has_config_template == cookiecutter.has_configsync == "n" else "y" }}', [tool_root + '/config']),
     ('{{ cookiecutter.needs_xdg_help }}', [tool_root + '/xdg']),
+    ('{{ cookiecutter.has_completions }}', [tool_root + '/completions']),
     ('{{ cookiecutter.has_tests }}', ['test', 'kitchen.yml', 'Gemfile', 'Gemfile.lock', '.travis.yml', '.rubocop.yml'])
 ]
 

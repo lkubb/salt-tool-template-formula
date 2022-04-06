@@ -3,7 +3,7 @@
 
 {%- set users = {} -%}
 
-{%- set user_settings = ['xdg', 'dotconfig', 'persistenv', 'rchook', 'completions', '{= cookiecutter.abbr_pysafe =}'] -%}
+{%- set user_settings = ['xdg', 'completions', 'dotconfig', 'persistenv', 'rchook', 'completions', '{= cookiecutter.abbr_pysafe =}'] -%}
 
 {#- rejectattr filter does not fit with mapping. need to filter out users before merging default values -#}
 {%- for tool_user, tool_user_conf in mapdata.get('users', {}).items() -%}

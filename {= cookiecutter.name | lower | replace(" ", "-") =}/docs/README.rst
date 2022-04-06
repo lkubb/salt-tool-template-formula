@@ -38,8 +38,14 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
   user:
 {!- if 'y' == cookiecutter.has_xdg !}
 
-        # Force the usage of XDG directories for this user.
-      xdg: true
+      # Force the usage of XDG directories for this user.
+    xdg: true
+{!- endif !}
+
+{!- if 'n' != cookiecutter.has_completions !}
+
+      # Put shell completions into this directory, relative to user home.
+    completions: '.config/zsh/completions'
 {!- endif !}
 
 {!- if 'y' == cookiecutter.has_configsync !}
