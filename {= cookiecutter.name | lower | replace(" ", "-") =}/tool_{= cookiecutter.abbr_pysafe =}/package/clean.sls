@@ -8,6 +8,9 @@
 
 include:
   - {{ sls_config_clean }}
+{!- if 'y' == cookiecutter.needs_repo !}
+  - {{ slsdotpath }}.repo.clean
+{!- endif !}
 
 {= cookiecutter.name =} is removed:
   pkg.removed:

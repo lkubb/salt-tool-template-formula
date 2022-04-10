@@ -20,7 +20,7 @@ Ensure {= cookiecutter.name =} APT repository can be managed:
 
 {= cookiecutter.name =} {{ repo }} repository is available:
   pkgrepo.managed:
-{%-   for conf, val in {= cookiecutter.abbr_pysafe =}.lookup.pkg.repo[reponame].items() %}
+{%-   for conf, val in {= cookiecutter.abbr_pysafe =}.lookup.pkg.repos[reponame].items() %}
     - {{ conf }}: {{ val }}
 {%-   endfor %}
 {%-   if {= cookiecutter.abbr_pysafe =}.lookup.pkg.manager in ['dnf', 'yum', 'zypper'] %}
