@@ -8,7 +8,7 @@
 
 
 {%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('dotconfig', 'defined') | selectattr('dotconfig') %}
-{%-   set dotconfig = user.dotconfig if dotconfig is mapping else {} %}
+{%-   set dotconfig = user.dotconfig if user.dotconfig is mapping else {} %}
 
 {= cookiecutter.name =} configuration is synced for user '{{ user.name }}':
   file.recurse:
