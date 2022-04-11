@@ -18,7 +18,7 @@ Ensure {= cookiecutter.name =} APT repository can be managed:
 
 {%- for reponame in {= cookiecutter.abbr_pysafe =}.lookup.pkg.enablerepo %}
 
-{= cookiecutter.name =} {{ repo }} repository is available:
+{= cookiecutter.name =} {{ reponame }} repository is available:
   pkgrepo.managed:
 {%-   for conf, val in {= cookiecutter.abbr_pysafe =}.lookup.pkg.repos[reponame].items() %}
     - {{ conf }}: {{ val }}
