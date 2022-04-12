@@ -9,7 +9,7 @@ include:
   - {{ tplroot }}.package
 
 
-{%- for user in {= cookiecutter.abbr_pysafe =}.users | rejectattr('xdg', 'sameas', False) %}
+{%- for user in {= cookiecutter.abbr_pysafe =}.users | rejectattr('xdg', 'sameas', false) %}
 
 {%-   set user_default_conf = user.home | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.confdir{! if 'y' == cookiecutter.has_conffile_only !}, {= cookiecutter.abbr_pysafe =}.lookup.paths.conffile{! endif !}) %}
 {%-   set user_xdg_confdir = user.xdg.config | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname) %}

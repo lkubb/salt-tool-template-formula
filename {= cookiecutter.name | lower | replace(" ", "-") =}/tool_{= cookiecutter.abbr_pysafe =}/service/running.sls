@@ -14,6 +14,7 @@ include:
   - {{ sls_config_file }}
 {!- endif !}
 
+
 {= cookiecutter.name =} service is running:
   service.running:
     - name: {{ {= cookiecutter.abbr_pysafe =}.lookup.service.name }}

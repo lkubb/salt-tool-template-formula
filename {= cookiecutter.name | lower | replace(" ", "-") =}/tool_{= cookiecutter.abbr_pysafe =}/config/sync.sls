@@ -27,6 +27,6 @@
     - file_mode: '{{ dotconfig.file_mode }}'
 {%-   endif %}
     - dir_mode: '{{ dotconfig.get('dir_mode', '0700') }}'
-    - clean: {{ dotconfig.get('clean', False) | to_bool }}
+    - clean: {{ dotconfig.get('clean', false) | to_bool }}
     - makedirs: true
 {%- endfor %}

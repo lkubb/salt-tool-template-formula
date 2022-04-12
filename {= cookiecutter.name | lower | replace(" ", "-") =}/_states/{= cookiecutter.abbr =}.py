@@ -137,12 +137,12 @@ def absent(name, user=None):
             ret[
                 "comment"
             ] = "Program '{}' would have been removed for user '{}'.".format(name, user)
-            ret["changes"] = {"installed": name}
+            ret["changes"] = {"removed": name}
         elif __salt__["{= cookiecutter.abbr =}.remove"](name, user):
             ret["comment"] = "Program '{}' was removed for user '{}'.".format(
                 name, user
             )
-            ret["changes"] = {"installed": name}
+            ret["changes"] = {"removed": name}
         else:
             ret["result"] = False
             ret["comment"] = "Something went wrong while calling {= cookiecutter.abbr =}."

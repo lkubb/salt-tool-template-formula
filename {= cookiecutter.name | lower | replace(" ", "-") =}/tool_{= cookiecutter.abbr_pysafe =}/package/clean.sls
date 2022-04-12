@@ -12,6 +12,7 @@ include:
   - {{ slsdotpath }}.repo.clean
 {!- endif !}
 
+
 {= cookiecutter.name =} is removed:
   pkg.removed:
     - name: {{ {= cookiecutter.abbr_pysafe =}.lookup.pkg.name }}

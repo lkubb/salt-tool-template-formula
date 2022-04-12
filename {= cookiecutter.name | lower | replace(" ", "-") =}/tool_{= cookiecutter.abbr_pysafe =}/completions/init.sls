@@ -9,6 +9,7 @@
 include:
   - {{ sls_package_install }}
 
+
 {%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('completions', 'defined') | selectattr('completions') %}
 
 Completions directory for {= cookiecutter.name =} is available for user '{{ user.name }}':

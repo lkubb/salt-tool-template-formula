@@ -5,6 +5,7 @@
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 
+
 {%- if grains['os'] in ['Debian', 'Ubuntu'] %}
 
 Ensure {= cookiecutter.name =} APT repository can be managed:

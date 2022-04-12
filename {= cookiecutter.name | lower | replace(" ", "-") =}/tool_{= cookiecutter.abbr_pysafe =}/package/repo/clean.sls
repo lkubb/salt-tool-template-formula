@@ -15,6 +15,7 @@ include:
 
 {%- else %}
 
+
 {%-   for reponame, repodata in {= cookiecutter.abbr_pysafe =}.lookup.pkg.repos.items() %}
 
 {= cookiecutter.name =} {{ reponame }} repository is absent:
