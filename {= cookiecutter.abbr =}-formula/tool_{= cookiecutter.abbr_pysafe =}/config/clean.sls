@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{#- Get the `tplroot` from `tpldir` #}
 {%- set tplroot = tpldir.split('/')[0] %}
 {!- if 'y' == cookiecutter.has_service !}
 {%- set sls_service_clean = tplroot ~ '.service.clean' %}
