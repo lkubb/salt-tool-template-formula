@@ -111,6 +111,9 @@ tool_{= cookiecutter.abbr_pysafe =}:
   lookup:
     pkg:
       name: {= cookiecutter.pkg =}
+{!- if 'pkg' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.pkg | yaml(False) | indent(6) =}
+{!- endif !}
 {!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
         - stable
@@ -119,13 +122,18 @@ tool_{= cookiecutter.abbr_pysafe =}:
     paths:
       confdir: '{= cookiecutter.default_confdir =}'
       conffile: '{= cookiecutter.default_conffile =}'
-{!- if 'y' == cookiecutter.needs_xdg_help !}
+{!- if 'y' == cookiecutter.needs_xdg_help or 'y' == cookiecutter.has_xdg !}
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
-{!- if cookiecutter._lookup !}
-    {= cookiecutter._lookup | yaml(False) | indent(4) =}
+{!- if 'paths' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.paths | yaml(False) | indent(6) =}
 {!- endif !}
+{!- for var, val in cookiecutter._lookup.items() !}
+{!-   if var not in ["pkg", "service", "paths"] !}
+    {= {var: val} | yaml(False) | indent(4) =}
+{!-   endif !}
+{!- endfor !}
 
 ######################################################################
 # This is where `tool` suite settings end and Salt behavior settings

@@ -7,6 +7,9 @@ values:
   lookup:
     pkg:
       name: {= cookiecutter.pkg =}
+{!- if 'pkg' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.pkg | yaml(False) | indent(6) =}
+{!- endif !}
 {!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
         - stable
@@ -18,14 +21,22 @@ values:
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
+{!- if 'paths' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.paths | yaml(False) | indent(6) =}
+{!- endif !}
     rootgroup: root
 {!- if 'y' == cookiecutter.has_service !}
     service:
       name: {= cookiecutter.pkg =}
+{!-   if 'service' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.service | yaml(False) | indent(6) =}
+{!-   endif !}
 {!- endif !}
-{!- if cookiecutter._lookup !}
-    {= cookiecutter._lookup | yaml(False) | indent(4) =}
-{!- endif !}
+{!- for var, val in cookiecutter._lookup.items() !}
+{!-   if var not in ["pkg", "service", "paths"] !}
+    {= {var: val} | yaml(False) | indent(4) =}
+{!-   endif !}
+{!- endfor !}
   # Just here for testing
   added_in_defaults: defaults_value
   winner: defaults

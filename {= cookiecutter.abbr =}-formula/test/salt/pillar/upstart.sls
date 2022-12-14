@@ -22,6 +22,9 @@ tool_{= cookiecutter.abbr_pysafe =}:
 
     pkg:
       name: {= cookiecutter.pkg =}
+{!- if 'pkg' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.pkg | yaml(False) | indent(6) =}
+{!- endif !}
 {!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
         - stable
@@ -29,17 +32,26 @@ tool_{= cookiecutter.abbr_pysafe =}:
     paths:
       confdir: '{= cookiecutter.default_confdir =}'
       conffile: '{= cookiecutter.default_conffile =}'
-{!- if 'y' == cookiecutter.needs_xdg_help !}
+{!- if 'y' == cookiecutter.needs_xdg_help or 'y' == cookiecutter.has_xdg !}
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
+{!- if 'paths' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.paths | yaml(False) | indent(6) =}
+{!- endif !}
+    rootgroup: root
 {!- if 'y' == cookiecutter.has_service !}
     service:
       name: {= cookiecutter.pkg =}
+{!-   if 'service' in cookiecutter._lookup !}
+      {= cookiecutter._lookup.service | yaml(False) | indent(6) =}
+{!-   endif !}
 {!- endif !}
-{!- if cookiecutter._lookup !}
-    {= cookiecutter._lookup | yaml(False) | indent(4) =}
-{!- endif !}
+{!- for var, val in cookiecutter._lookup.items() !}
+{!-   if var not in ["pkg", "service", "paths"] !}
+    {= {var: val} | yaml(False) | indent(4) =}
+{!-   endif !}
+{!- endfor !}
 {!- if cookiecutter._settings !}
   {= cookiecutter._settings | yaml(False) | indent(2) =}
 {!- endif !}
