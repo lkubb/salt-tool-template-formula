@@ -132,13 +132,13 @@ has_tests [bool]
 git_username [str]
     Your Github/Gitlab/... username that should be used as the author of the formula.
 
-_lookup [map/dict]
+lookup [map/dict]
     An arbitrarily nested mapping/dictionary that describes lookup data that the user should not have to modify. Examples include package dependencies, some paths, package names etc.
 
-_settings [map/dict]
+settings [map/dict]
     An arbitrarily nested mapping/dictionary that describes global parameters for the formula. Examples include package version and system configuration for the managed program.
 
-_usersettings [map/dict]
+usersettings [map/dict]
     An arbitrarily nested mapping/dictionary that describes per-user parameters for the formula. Examples include list of plugins to install, user configuration for the managed program.
 
 

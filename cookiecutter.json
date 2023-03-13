@@ -30,9 +30,9 @@
     "has_completions": "n",
     "has_tests": "y",
     "git_username": "none",
-    "_lookup": {},
-    "_settings": {},
-    "_usersettings": {
+    "lookup": {},
+    "settings": {},
+    "usersettings": {
         "someconf": "someval"
     }
 }

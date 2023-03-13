@@ -74,13 +74,13 @@ The following shows an example of ``tool_{= cookiecutter.abbr =}`` per-user conf
       # for this user (will be appended to a file relative to $HOME)
     rchook: '.config/zsh/zshrc'
 
-{!- if cookiecutter._usersettings !}
+{!- if cookiecutter.usersettings !}
 
       # This user's configuration for this formula. Will be overridden by
       # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
       # Set this to `false` to disable configuration for this user.
     {= cookiecutter.abbr_pysafe =}:
-      {= cookiecutter._usersettings | yaml(False) | indent(6) =}
+      {= cookiecutter.usersettings | yaml(False) | indent(6) =}
 {!- endif !}
 
 Formula-specific
@@ -96,15 +96,15 @@ Formula-specific
       # (again for Linux, brew does that anyways).
     version: latest
 
-{!- if cookiecutter._settings !}
-    {= cookiecutter._settings | yaml(False) | indent(4) =}
+{!- if cookiecutter.settings !}
+    {= cookiecutter.settings | yaml(False) | indent(4) =}
 {!- endif !}
 
-{!- if cookiecutter._usersettings !}
+{!- if cookiecutter.usersettings !}
 
       # Default formula configuration for all users.
     defaults:
-      {= cookiecutter._usersettings | first =}: default value for all users
+      {= cookiecutter.usersettings | first =}: default value for all users
 {!- endif !}
 
 {!- if 'y' == cookiecutter.has_config_template !}

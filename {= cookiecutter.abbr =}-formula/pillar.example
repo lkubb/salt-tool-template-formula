@@ -63,13 +63,13 @@ tool_global:
         # for this user (will be appended to a file relative to $HOME)
       rchook: '.config/zsh/zshrc'
 
-{!- if cookiecutter._usersettings !}
+{!- if cookiecutter.usersettings !}
 
         # This user's configuration for this formula. Will be overridden by
         # user-specific configuration in `tool_{= cookiecutter.abbr_pysafe =}:users`.
         # Set this to `false` to disable configuration for this user.
       {= cookiecutter.abbr_pysafe =}:
-        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
+        {= cookiecutter.usersettings | yaml(False) | indent(8) =}
 {!- endif !}
 
 tool_{= cookiecutter.abbr_pysafe =}:
@@ -80,15 +80,15 @@ tool_{= cookiecutter.abbr_pysafe =}:
     # (again for Linux, brew does that anyways).
   version: latest
 
-{!- if cookiecutter._settings !}
-  {= cookiecutter._settings | yaml(False) | indent(2) =}
+{!- if cookiecutter.settings !}
+  {= cookiecutter.settings | yaml(False) | indent(2) =}
 {!- endif !}
 
-{!- if cookiecutter._usersettings !}
+{!- if cookiecutter.usersettings !}
 
     # Default formula configuration for all users.
   defaults:
-    {= cookiecutter._usersettings | first =}: default value for all users
+    {= cookiecutter.usersettings | first =}: default value for all users
 {!- endif !}
 
     # User configuration can also be specified here in
@@ -97,9 +97,9 @@ tool_{= cookiecutter.abbr_pysafe =}:
   users:
     user:
       persistenv: '.bash_profile'
-{!- if cookiecutter._usersettings !}
+{!- if cookiecutter.usersettings !}
       {= cookiecutter.abbr =}:
-        {= cookiecutter._usersettings | first =}: this overrides config from tool_globl:users
+        {= cookiecutter.usersettings | first =}: this overrides config from tool_globl:users
 {!- endif !}
 
 ######################################################################
@@ -111,8 +111,8 @@ tool_{= cookiecutter.abbr_pysafe =}:
   lookup:
     pkg:
       name: {= cookiecutter.pkg =}
-{!- if 'pkg' in cookiecutter._lookup !}
-      {= cookiecutter._lookup.pkg | yaml(False) | indent(6) =}
+{!- if 'pkg' in cookiecutter.lookup !}
+      {= cookiecutter.lookup.pkg | yaml(False) | indent(6) =}
 {!- endif !}
 {!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
@@ -126,10 +126,10 @@ tool_{= cookiecutter.abbr_pysafe =}:
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
-{!- if 'paths' in cookiecutter._lookup !}
-      {= cookiecutter._lookup.paths | yaml(False) | indent(6) =}
+{!- if 'paths' in cookiecutter.lookup !}
+      {= cookiecutter.lookup.paths | yaml(False) | indent(6) =}
 {!- endif !}
-{!- for var, val in cookiecutter._lookup.items() !}
+{!- for var, val in cookiecutter.lookup.items() !}
 {!-   if var not in ["pkg", "service", "paths"] !}
     {= {var: val} | yaml(False) | indent(4) =}
 {!-   endif !}

@@ -9,9 +9,9 @@ tool_global:
       persistenv: .bash_profile
       rchook: .bashrc
       xdg: true
-{!- if cookiecutter._usersettings !}
+{!- if cookiecutter.usersettings !}
       {= cookiecutter.abbr_pysafe =}:
-        {= cookiecutter._usersettings | yaml(False) | indent(8) =}
+        {= cookiecutter.usersettings | yaml(False) | indent(8) =}
 {!- endif !}
 tool_{= cookiecutter.abbr_pysafe =}:
   lookup:
@@ -22,8 +22,8 @@ tool_{= cookiecutter.abbr_pysafe =}:
 
     pkg:
       name: {= cookiecutter.pkg =}
-{!- if 'pkg' in cookiecutter._lookup !}
-      {= cookiecutter._lookup.pkg | yaml(False) | indent(6) =}
+{!- if 'pkg' in cookiecutter.lookup !}
+      {= cookiecutter.lookup.pkg | yaml(False) | indent(6) =}
 {!- endif !}
 {!- if 'y' == cookiecutter.needs_repo !}
       enable_repo:
@@ -36,24 +36,24 @@ tool_{= cookiecutter.abbr_pysafe =}:
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
-{!- if 'paths' in cookiecutter._lookup !}
-      {= cookiecutter._lookup.paths | yaml(False) | indent(6) =}
+{!- if 'paths' in cookiecutter.lookup !}
+      {= cookiecutter.lookup.paths | yaml(False) | indent(6) =}
 {!- endif !}
     rootgroup: root
 {!- if 'y' == cookiecutter.has_service !}
     service:
       name: {= cookiecutter.pkg =}
-{!-   if 'service' in cookiecutter._lookup !}
-      {= cookiecutter._lookup.service | yaml(False) | indent(6) =}
+{!-   if 'service' in cookiecutter.lookup !}
+      {= cookiecutter.lookup.service | yaml(False) | indent(6) =}
 {!-   endif !}
 {!- endif !}
-{!- for var, val in cookiecutter._lookup.items() !}
+{!- for var, val in cookiecutter.lookup.items() !}
 {!-   if var not in ["pkg", "service", "paths"] !}
     {= {var: val} | yaml(False) | indent(4) =}
 {!-   endif !}
 {!- endfor !}
-{!- if cookiecutter._settings !}
-  {= cookiecutter._settings | yaml(False) | indent(2) =}
+{!- if cookiecutter.settings !}
+  {= cookiecutter.settings | yaml(False) | indent(2) =}
 {!- endif !}
 
   tofs:
