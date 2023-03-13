@@ -21,7 +21,7 @@ values:
           humanname: {= cookiecutter.name =} stable
           name: {= cookiecutter.name =} stable
           baseurl: https://FIXME/rpm/stable
-          key_url: https://FIXME/key.gpg
+          gpgkey: https://FIXME/key.gpg
           gpgcheck: 1
 {!- endif !}
 ...
