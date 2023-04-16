@@ -9,10 +9,9 @@ python = "^3.6.2"
 
 [tool.poetry.dev-dependencies]
 {!- if 'y' == cookiecutter.modstate !}
-salt = "^3004"
-black = "^21.12b0"
-mypy = "^0.931"
-flake8 = "^4"
+salt = "^3005"
+black = "^23.1.0"
+isort = "^5.12.0"
 {!- endif !}
 Sphinx = "^4"
 # this is the official saltstack theme
