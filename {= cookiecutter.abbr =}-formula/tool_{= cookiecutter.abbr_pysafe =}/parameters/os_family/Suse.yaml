@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: ft=yaml
 #
 # Set values specific to:
@@ -15,7 +14,7 @@ values:
   lookup:
     pkg:
       manager: zypper
-{!- if 'y' == cookiecutter.needs_repo !}
+{!- if cookiecutter.needs_repo == "y" !}
       repos:
         stable:
           humanname: {= cookiecutter.name =} stable

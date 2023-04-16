@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {!- if cookiecutter.has_configsync == "y" or cookiecutter.has_config_template == "y" !}
-{%- set sls_config_file = tplroot ~ '.config' %}
+{%- set sls_config_file = tplroot ~ ".config" %}
 {!- endif !}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 

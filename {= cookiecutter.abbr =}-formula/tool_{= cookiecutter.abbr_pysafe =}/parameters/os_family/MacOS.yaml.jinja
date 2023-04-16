@@ -1,5 +1,4 @@
-{#- -*- coding: utf-8 -*- #}
-{#- vim: ft=jinja #}
+{#- vim: ft=sls #}
 {#-
     Set values specific to:
       salt['config.get']('os') == MacOS.
@@ -22,7 +21,7 @@ values:
       confdir: '{= cookiecutter.default_confdir_mac =}'
 {!- endif !}
     pkg:
-{!- if 'y' == cookiecutter.mac_cask !}
+{!- if cookiecutter.mac_cask == "y" !}
       name: homebrew/cask/{= cookiecutter.pkg =}
 {!- endif !}
       manager: brew

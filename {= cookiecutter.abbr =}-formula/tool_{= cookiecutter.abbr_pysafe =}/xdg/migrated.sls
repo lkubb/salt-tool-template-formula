@@ -1,23 +1,22 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 
 include:
   - {{ tplroot }}.package
 
 
-{%- for user in {= cookiecutter.abbr_pysafe =}.users | rejectattr('xdg', 'sameas', false) %}
+{%- for user in {= cookiecutter.abbr_pysafe =}.users | rejectattr("xdg", "sameas", false) %}
 
-{%-   set user_default_conf = user.home | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.confdir{! if 'y' == cookiecutter.has_conffile_only !}, {= cookiecutter.abbr_pysafe =}.lookup.paths.conffile{! endif !}) %}
+{%-   set user_default_conf = user.home | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.confdir{! if cookiecutter.has_conffile_only == "y" !}, {= cookiecutter.abbr_pysafe =}.lookup.paths.conffile{! endif !}) %}
 {%-   set user_xdg_confdir = user.xdg.config | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_dirname) %}
 {%-   set user_xdg_conffile = user_xdg_confdir | path_join({= cookiecutter.abbr_pysafe =}.lookup.paths.xdg_conffile) %}
 
 # workaround for file.rename not supporting user/group/mode for makedirs
 {= cookiecutter.name =} has its config dir in XDG_CONFIG_HOME for user '{{ user.name }}':
   file.directory:
-    - name: {{ {= 'user_xdg_confdir' if 'y' == cookiecutter.has_conffile_only else 'user.xdg.config' =} }}
+    - name: {{ {= "user_xdg_confdir" if cookiecutter.has_conffile_only == "y" else "user.xdg.config" =} }}
     - user: {{ user.name }}
     - group: {{ user.group }}
     - mode: '0700'
@@ -27,7 +26,7 @@ include:
 
 Existing {= cookiecutter.name =} configuration is migrated for user '{{ user.name }}':
   file.rename:
-    - name: {{ {= 'user_xdg_confdir' if 'y' != cookiecutter.has_conffile_only else 'user_xdg_conffile' =} }}
+    - name: {{ {= "user_xdg_confdir" if cookiecutter.has_conffile_only != "y" else "user_xdg_conffile" =} }}
     - source: {{ user_default_conf }}
     - require:
       - {= cookiecutter.name =} has its config dir in XDG_CONFIG_HOME for user '{{ user.name }}'
@@ -59,7 +58,7 @@ Existing {= cookiecutter.name =} configuration is migrated for user '{{ user.nam
     - require_in:
       - {= cookiecutter.name =} setup is completed
 
-{%-   if user.get('persistenv') %}
+{%-   if user.get("persistenv") %}
 
 persistenv file for {= cookiecutter.name =} exists for user '{{ user.name }}':
   file.managed:

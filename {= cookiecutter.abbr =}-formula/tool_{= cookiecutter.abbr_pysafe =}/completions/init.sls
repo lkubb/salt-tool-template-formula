@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
 {#-
@@ -6,15 +5,15 @@
     Has a dependency on `tool_{= cookiecutter.abbr_pysafe =}.package`_.
 #}
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_package_install = tplroot ~ '.package.install' %}
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_package_install = tplroot ~ ".package.install" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 
 include:
   - {{ sls_package_install }}
 
 
-{%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('completions', 'defined') | selectattr('completions') %}
+{%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr("completions", "defined") | selectattr("completions") %}
 
 Completions directory for {= cookiecutter.name =} is available for user '{{ user.name }}':
   file.directory:
@@ -26,8 +25,8 @@ Completions directory for {= cookiecutter.name =} is available for user '{{ user
 
 {= cookiecutter.name =} shell completions are available for user '{{ user.name }}':
   cmd.run:
-    - name: {= cookiecutter.abbr =} --completions {{ user.shell }} > {{ user.home | path_join(user.completions, '_{= cookiecutter.abbr =}') }}
-    - creates: {{ user.home | path_join(user.completions, '_{= cookiecutter.abbr =}') }}
+    - name: {= cookiecutter.abbr =} --completions {{ user.shell }} > {{ user.home | path_join(user.completions, "_{= cookiecutter.abbr =}") }}
+    - creates: {{ user.home | path_join(user.completions, "_{= cookiecutter.abbr =}") }}
     - onchanges:
       - {= cookiecutter.name =} is installed
     - runas: {{ user.name }}

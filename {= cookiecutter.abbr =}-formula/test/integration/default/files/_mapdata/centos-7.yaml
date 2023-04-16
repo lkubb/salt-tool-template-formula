@@ -26,28 +26,28 @@ values:
     winner: lookup
     pkg:
       name: {= cookiecutter.pkg =}
-{!- if 'pkg' in cookiecutter.lookup !}
+{!- if "pkg" in cookiecutter.lookup !}
       {= cookiecutter.lookup.pkg | yaml(False) | indent(6) =}
 {!- endif !}
-{!- if 'y' == cookiecutter.needs_repo !}
+{!- if cookiecutter.needs_repo == "y" !}
       enable_repo:
         - stable
 {!- endif !}
     paths:
       confdir: '{= cookiecutter.default_confdir =}'
       conffile: '{= cookiecutter.default_conffile =}'
-{!- if 'y' == cookiecutter.needs_xdg_help or 'y' == cookiecutter.has_xdg !}
+{!- if cookiecutter.needs_xdg_help == "y" or cookiecutter.has_xdg == "y" !}
       xdg_dirname: '{= cookiecutter.xdg_dirname =}'
       xdg_conffile: '{= cookiecutter.xdg_conffile =}'
 {!- endif !}
-{!- if 'paths' in cookiecutter.lookup !}
+{!- if "paths" in cookiecutter.lookup !}
       {= cookiecutter.lookup.paths | yaml(False) | indent(6) =}
 {!- endif !}
     rootgroup: root
-{!- if 'y' == cookiecutter.has_service !}
+{!- if cookiecutter.has_service == "y" !}
     service:
       name: {= cookiecutter.pkg =}
-{!-   if 'service' in cookiecutter.lookup !}
+{!-   if "service" in cookiecutter.lookup !}
       {= cookiecutter.lookup.service | yaml(False) | indent(6) =}
 {!-   endif !}
 {!- endif !}
@@ -74,7 +74,7 @@ values:
     - osfinger
     - os
     - os_family
-{!- if 'y' == cookiecutter.has_config_template !}
+{!- if cookiecutter.has_config_template == "y" !}
     source_files:
       {= cookiecutter.name =} config file is managed for user 'user':
       - {= cookiecutter.xdg_conffile or cookiecutter.default_conffile =}

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
 {#-
@@ -6,8 +5,8 @@
     Has a dependency on `tool_{= cookiecutter.abbr_pysafe =}.package`_.
 #}
 
-{%- set tplroot = tpldir.split('/')[0] %}
-{%- set sls_package_install = tplroot ~ '.package.install' %}
+{%- set tplroot = tpldir.split("/")[0] %}
+{%- set sls_package_install = tplroot ~ ".package.install" %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch with context %}
 
@@ -15,11 +14,11 @@ include:
   - {{ sls_package_install }}
 
 
-{%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr('{= cookiecutter.abbr_pysafe =}.config', 'defined') | selectattr('{= cookiecutter.abbr_pysafe =}.config') %}
+{%- for user in {= cookiecutter.abbr_pysafe =}.users | selectattr("{= cookiecutter.abbr_pysafe =}.config", "defined") | selectattr("{= cookiecutter.abbr_pysafe =}.config") %}
 
 {= cookiecutter.name =} config file is managed for user '{{ user.name }}':
   file.managed:
-    - name: {{ user['_{= cookiecutter.abbr_pysafe =}'].conffile }}
+    - name: {{ user["_{= cookiecutter.abbr_pysafe =}"].conffile }}
     - source: {{ files_switch([{= cookiecutter.abbr_pysafe =}.lookup.paths.conffile],
                               lookup="{= cookiecutter.name =} config file is managed for user '{}'".format(user.name),
                               opt_prefixes=[user.name])
