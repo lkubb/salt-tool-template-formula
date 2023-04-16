@@ -1,17 +1,23 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
+{#-
+    *Meta-state*.
+
+    Performs all operations described in this formula according to the specified configuration.
+#}
+
 include:
   - .package
-{!- if 'y' == cookiecutter.needs_xdg_help !}
+{!- if cookiecutter.needs_xdg_help == "y" !}
   - .xdg
 {!- endif !}
-{!- if 'y' == cookiecutter.has_configsync or 'y' == cookiecutter.has_config_template !}
+{!- if cookiecutter.has_configsync == "y" or cookiecutter.has_config_template == "y" !}
   - .config
 {!- endif !}
-{!- if 'y' == cookiecutter.has_service !}
+{!- if cookiecutter.has_service == "y" !}
   - .service
 {!- endif !}
-{!- if 'n' != cookiecutter.has_completions !}
+{!- if cookiecutter.has_completions != "n" !}
   - .completions
 {!- endif !}

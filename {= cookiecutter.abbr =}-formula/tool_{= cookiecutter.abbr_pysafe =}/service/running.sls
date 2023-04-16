@@ -2,12 +2,12 @@
 # vim: ft=sls
 
 {%- set tplroot = tpldir.split('/')[0] %}
-{!- if 'y' == cookiecutter.has_configsync or 'y' == cookiecutter.has_config_template !}
+{!- if cookiecutter.has_configsync == "y" or cookiecutter.has_config_template == "y" !}
 {%- set sls_config_file = tplroot ~ '.config' %}
 {!- endif !}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 
-{!- if 'y' == cookiecutter.has_configsync or 'y' == cookiecutter.has_config_template !}
+{!- if cookiecutter.has_configsync == "y" or cookiecutter.has_config_template == "y" !}
 
 include:
   - {{ sls_config_file }}
@@ -18,7 +18,7 @@ include:
   service.running:
     - name: {{ {= cookiecutter.abbr_pysafe =}.lookup.service.name }}
     - enable: true
-{!- if 'y' == cookiecutter.has_configsync or 'y' == cookiecutter.has_config_template !}
+{!- if cookiecutter.has_configsync == "y" or cookiecutter.has_config_template == "y" !}
     - watch:
       - sls: {{ sls_config_file }}
 {!- endif !}

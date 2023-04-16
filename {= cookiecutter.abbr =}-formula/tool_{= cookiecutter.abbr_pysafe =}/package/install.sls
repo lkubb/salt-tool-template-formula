@@ -4,7 +4,7 @@
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 
-{!- if 'y' == cookiecutter.needs_repo !}
+{!- if cookiecutter.needs_repo == "y" !}
 
 include:
   - {{ slsdotpath }}.repo

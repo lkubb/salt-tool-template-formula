@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
+{#-
+    Removes {= cookiecutter.name =} XDG compatibility crutches for all managed users.
+#}
+
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 

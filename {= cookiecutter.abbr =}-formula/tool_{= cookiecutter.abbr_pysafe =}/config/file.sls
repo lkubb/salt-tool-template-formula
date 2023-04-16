@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
+{#-
+    Manages the {= cookiecutter.name =} {= "service" if cookiecutter.has_service == "y" else "package" =} configuration.
+    Has a dependency on `tool_{= cookiecutter.abbr_pysafe =}.package`_.
+#}
+
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- set sls_package_install = tplroot ~ '.package.install' %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}

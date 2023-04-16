@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
+{#-
+    Removes the configuration of the {= cookiecutter.name =} {! if cookiecutter.has_service == "y" !}service and has a
+    dependency on `tool_{= cookiecutter.abbr_pysafe =}.service.clean`_{! else !}package{! endif !}.
+#}
+
 {%- set tplroot = tpldir.split('/')[0] %}
 {!- if 'y' == cookiecutter.has_service !}
 {%- set sls_service_clean = tplroot ~ '.service.clean' %}

@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 # vim: ft=sls
 
+{#-
+    Syncs the {= cookiecutter.name =} {= "service" if cookiecutter.has_service == "y" else "package" =} configuration
+    with a dotfiles repo.
+    Has a dependency on `tool_{= cookiecutter.abbr_pysafe =}.package`_.
+#}
+
 {%- set tplroot = tpldir.split('/')[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as {= cookiecutter.abbr_pysafe =} with context %}
 {%- from tplroot ~ "/libtofs.jinja" import files_switch %}
