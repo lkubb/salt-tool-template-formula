@@ -2,7 +2,6 @@
 
 {#-
     Removes {= cookiecutter.abbr_pysafe =} completions for all managed users.
-    Has a dependency on `tool_{= cookiecutter.abbr_pysafe =}.package`_.
 #}
 
 {%- set tplroot = tpldir.split("/")[0] %}
